@@ -1,0 +1,664 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block page_name %}
+    <div class="row text-right">
+        <div class="col-md-3 text-right">
+            <div class="form-group">
+                {{ form.code }}
+            </div>
+        </div>
+        <div class="col-md-3 text-right">
+            <div class="form-group">
+                {{ form.date }}
+            </div>
+        </div>
+        <div class="col-md-6 pr-2">
+{#            <div class="callout callout-danger">#}
+                  <h5>일 기준 [ 오전 09:00:00 ~ 익일 오전 08:59:59 ]</h5>
+{#            </div>#}
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <div class="card">
+        <div class="card-header p-2">
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a class="nav-link active" href="#1min" data-toggle="tab">1분</a></li>
+                <li class="nav-item"><a class="nav-link" href="#2min" data-toggle="tab">2분</a></li>
+                <li class="nav-item"><a class="nav-link" href="#3min" data-toggle="tab">3분</a></li>
+                <li class="nav-item"><a class="nav-link" href="#5min" data-toggle="tab">5분</a></li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="tab-content">
+                <div class="active tab-pane" id="1min">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <span class="badge bg-danger text-md">상승</span>
+                            <span class="p-2">44번 (55%)</span>
+                            <span class="p-2">7연속</span>
+                            <span class="p-4"></span>
+                            <span class="badge bg-primary text-md">하락</span>
+                            <span class="p-2">36번 (45%)</span>
+                            <span class="p-2">5연속</span>
+                        </div>
+                        <div class="col-md-3 text-right">
+                            <span class="badge bg-indigo text-md">퐁당</span>
+                            <span class="p-2">3번</span>
+                            <span class="p-4"></span>
+                                <span class="badge bg-gray text-md">꺽음</span>
+                            <span class="p-2">40번</span>
+                        </div>
+                    </div>
+                    <br/>
+
+                    <div class="table-responsive border-danger">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="text-center align-center">
+                                    <th class="th-high">상승</th>
+                                    <th class="th-low">하락</th>
+                                    <th class="th-high">상승</th>
+                                    <th class="th-low">하락</th>
+                                    <th class="th-high">상승</th>
+                                    <th class="th-low">하락</th>
+                                    <th class="th-high">상승</th>
+                                    <th class="th-low">하락</th>
+                                    <th class="th-high">상승</th>
+                                    <th class="th-low">하락</th>
+                                    <th class="th-high">상승</th>
+                                    <th class="th-low">하락</th>
+                                    <th class="th-high">상승</th>
+                                    <th class="th-low">하락</th>
+                                    <th class="th-high">상승</th>
+                                    <th class="th-low">하락</th>
+                                    <th class="th-high">상승</th>
+                                    <th class="th-low">하락</th>
+                                    <th class="th-high">상승</th>
+                                    <th class="th-low">하락</th>
+                                    <th class="th-high">상승</th>
+                                    <th class="th-low">하락</th>
+                                    <th class="th-high">상승</th>
+                                    <th class="th-low">하락</th>
+                                    <th class="th-high">상승</th>
+                                    <th class="th-low">하락</th>
+                                    <th class="th-high">상승</th>
+                                    <th class="th-low">하락</th>
+                                    <th class="th-high">상승</th>
+                                    <th class="th-low">하락</th>
+                                    <th class="th-high">상승</th>
+                                    <th class="th-low">하락</th>
+                                    <th class="th-high">상승</th>
+                                    <th class="th-low">하락</th>
+                                    <th class="th-high">상승</th>
+                                    <th class="th-low">하락</th>
+                                    <th class="th-high">상승</th>
+                                    <th class="th-low">하락</th>
+                                    <th class="th-high">상승</th>
+                                    <th class="th-low">하락</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="text-center">
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">1</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">2</span></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">3</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">4</span></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">5</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">6</span></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">7</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">8</span></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">9</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">16</span></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">21</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">22</span></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">23</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">24</span></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">25</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">26</span></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">27</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">28</span></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">29</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">36</span></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">41</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">42</span></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">43</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">44</span></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">45</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">46</span></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">47</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">48</span></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">49</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">56</span></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">61</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">62</span></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">63</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">64</span></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">65</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">66</span></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">67</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">68</span></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">69</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">76</span></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">10</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">17</span></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">30</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">37</span></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">50</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">57</span></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">70</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">77</span></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">11</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">18</span></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">31</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">38</span></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">51</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">58</span></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">71</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">78</span></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">12</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">19</span></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">32</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">39</span></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">52</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">59</span></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">72</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">79</span></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">13</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">20</span></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">33</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">40</span></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">53</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">60</span></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">73</span></td>
+                                    <td class="td-result"><span class="badge bg-primary text-md m-1">80</span></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">14</span></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">34</span></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">54</span></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">74</span></td>
+                                    <td class="td-result"></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">15</span></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">35</span></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">55</span></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"></td>
+                                    <td class="td-result"><span class="badge bg-danger text-md m-1">75</span></td>
+                                    <td class="td-result"></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="text-center">
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">7</td>
+                                    <td class="tf-index">5</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">7</td>
+                                    <td class="tf-index">5</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">7</td>
+                                    <td class="tf-index">5</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">7</td>
+                                    <td class="tf-index">5</td>
+                                </tr>
+                                <tr class="text-center" style="background-color: black; color: white;">
+                                    <td class="tf-index">1</td>
+                                    <td class="tf-index">2</td>
+                                    <td class="tf-index">3</td>
+                                    <td class="tf-index">4</td>
+                                    <td class="tf-index">5</td>
+                                    <td class="tf-index">6</td>
+                                    <td class="tf-index">7</td>
+                                    <td class="tf-index">8</td>
+                                    <td class="tf-index">9</td>
+                                    <td class="tf-index">10</td>
+                                    <td class="tf-index">11</td>
+                                    <td class="tf-index">12</td>
+                                    <td class="tf-index">13</td>
+                                    <td class="tf-index">14</td>
+                                    <td class="tf-index">15</td>
+                                    <td class="tf-index">16</td>
+                                    <td class="tf-index">17</td>
+                                    <td class="tf-index">18</td>
+                                    <td class="tf-index">19</td>
+                                    <td class="tf-index">20</td>
+                                    <td class="tf-index">21</td>
+                                    <td class="tf-index">22</td>
+                                    <td class="tf-index">23</td>
+                                    <td class="tf-index">24</td>
+                                    <td class="tf-index">25</td>
+                                    <td class="tf-index">26</td>
+                                    <td class="tf-index">27</td>
+                                    <td class="tf-index">28</td>
+                                    <td class="tf-index">29</td>
+                                    <td class="tf-index">30</td>
+                                    <td class="tf-index">31</td>
+                                    <td class="tf-index">32</td>
+                                    <td class="tf-index">33</td>
+                                    <td class="tf-index">34</td>
+                                    <td class="tf-index">35</td>
+                                    <td class="tf-index">36</td>
+                                    <td class="tf-index">37</td>
+                                    <td class="tf-index">38</td>
+                                    <td class="tf-index">39</td>
+                                    <td class="tf-index">40</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <br/>
+
+                    <!--div class="row">
+                        <div class="col-md-6">
+                            <div class="card card-warning">
+                                <div class="card-header">
+                                    <h3 class="card-title">1일 누적 비교</h3>
+                                    <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="donutData" style="height:230px; min-height:230px"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card card-warning">
+                                <div class="card-header">
+                                    <h3 class="card-title">일별 추이 그래프</h3>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="barChart" style="height:230px; min-height:230px"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div-->
+                    <br/>
+
+                    <table id="table_result" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th class="text-center">게임 시간</th>
+                                <th class="text-center no-sort">시가</th>
+                                <th class="text-center no-sort">상태</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center">21일 17시 26분</td>
+                                <td class="text-center">9,3412.72</td>
+                                <td class="text-center"><span class="badge bg-danger text-md">상승</span></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">21일 17시 25분</td>
+                                <td class="text-center">9,3412.71</td>
+                                <td class="text-center"><span class="badge bg-primary text-md">하락</span></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">21일 17시 24분</td>
+                                <td class="text-center">9,3412.70</td>
+                                <td class="text-center"><span class="badge bg-danger text-md">상승</span></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">21일 17시 23분</td>
+                                <td class="text-center">9,3412.69</td>
+                                <td class="text-center"><span class="badge bg-primary text-md">하락</span></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">21일 17시 22분</td>
+                                <td class="text-center">9,3412.70</td>
+                                <td class="text-center"><span class="badge bg-danger text-md">상승</span></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">21일 17시 21분</td>
+                                <td class="text-center">9,3412.69</td>
+                                <td class="text-center"><span class="badge bg-primary text-md">하락</span></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">21일 17시 20분</td>
+                                <td class="text-center">9,3412.70</td>
+                                <td class="text-center"><span class="badge bg-danger text-md">상승</span></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">21일 17시 19분</td>
+                                <td class="text-center">9,3412.69</td>
+                                <td class="text-center"><span class="badge bg-primary text-md">하락</span></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">21일 17시 18분</td>
+                                <td class="text-center">9,3412.70</td>
+                                <td class="text-center"><span class="badge bg-danger text-md">상승</span></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">21일 17시 17분</td>
+                                <td class="text-center">9,3412.69</td>
+                                <td class="text-center"><span class="badge bg-primary text-md">하락</span></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">21일 17시 16분</td>
+                                <td class="text-center">9,3412.72</td>
+                                <td class="text-center"><span class="badge bg-danger text-md">상승</span></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">21일 17시 15분</td>
+                                <td class="text-center">9,3412.71</td>
+                                <td class="text-center"><span class="badge bg-primary text-md">하락</span></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">21일 17시 14분</td>
+                                <td class="text-center">9,3412.70</td>
+                                <td class="text-center"><span class="badge bg-danger text-md">상승</span></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">21일 17시 13분</td>
+                                <td class="text-center">9,3412.69</td>
+                                <td class="text-center"><span class="badge bg-primary text-md">하락</span></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">21일 17시 12분</td>
+                                <td class="text-center">9,3412.70</td>
+                                <td class="text-center"><span class="badge bg-danger text-md">상승</span></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">21일 17시 11분</td>
+                                <td class="text-center">9,3412.69</td>
+                                <td class="text-center"><span class="badge bg-primary text-md">하락</span></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">21일 17시 10분</td>
+                                <td class="text-center">9,3412.70</td>
+                                <td class="text-center"><span class="badge bg-danger text-md">상승</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="tab-pane" id="2min">
+
+                </div>
+                <div class="tab-pane" id="3min">
+
+                </div>
+                <div class="tab-pane" id="5min">
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script>
+
+        $(function () {
+            $('#table_result').DataTable({
+                "columnDefs": [{
+                    "targets": 'no-sort',
+                    "orderable": false,
+                }],
+                {#"scrollX": true, #}
+            });
+        });
+
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
+        });
+
+        function selectChange() {
+            Toast.fire({
+                type: 'warning',
+                title: 'API 연결 후 적용될 예정입니다.'
+            })
+        }
+
+
+    </script>
+{% endblock javascript %}

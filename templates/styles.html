@@ -1,0 +1,62 @@
+{% load static %}
+
+{% block styles %}
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}"/>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" type="text/css" href="{% static 'admin-lte/plugins/fontawesome-free/css/all.min.css' %}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" type="text/css" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" type="text/css" href="{% static 'admin-lte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+    <!-- Toastr -->
+    <link rel="stylesheet" type="text/css" href="{% static 'admin-lte/plugins/toastr/toastr.min.css' %}">
+
+    <!-- Theme style -->
+    <link rel="stylesheet" type="text/css" href="{% static 'admin-lte/dist/css/adminlte.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+    <!-- date-range-picker -->
+    <link rel="stylesheet" type="text/css" href="{% static 'admin-lte/plugins/daterangepicker/daterangepicker.css' %}">
+    <!-- DataTables -->
+    <link rel="stylesheet" type="text/css" href="{% static 'admin-lte/plugins/datatables-bs4/css/dataTables.bootstrap4.css' %}">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <style>
+        .page-holder {
+            min-height: 100vh;
+        }
+
+        .bg-cover {
+            background-size: cover !important;
+        }
+
+        .nav-pills .nav-item .nav-link:not(.active) {
+            background-color: #fff;
+            color: black;
+        }
+
+        .nav-pills .nav-item .nav-link {
+            background-color: darkgrey;
+            color: white;
+        }
+
+        .th-high {
+            width: 100px;
+            color: #dc3545;
+        }
+        .th-low {
+            width: 100px;
+            color: #007bff;
+        }
+        .td-result {
+            width: 100px;
+        }
+        .td-index {
+            width: 100px;
+        }
+        .td-count {
+            width: 100px;
+        }
+
+    </style>
+{% endblock %}
