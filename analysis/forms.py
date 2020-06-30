@@ -1,93 +1,64 @@
 from django import forms
+from . import models
 
-
-PERMISSION_TYPE = (
-    ('Access Denied', 'Access Denied'),
-    ('Can View', 'Can View'),
-    ('Can Edit', 'Can Edit'),
-)
-CURRENCY_TYPE = (
-    ('USD', 'USD'),
-    ('EUR', 'EUR'),
-    ('VND', 'VND'),
-)
-STAY_TYPE_M = (
-    ('Daily', 'Daily'),
-)
-STAY_TYPE_SM = (
-    ('Hourly', 'Hourly'),
-    ('Overnight', 'Overnight'),
-    ('Daily', 'Daily'),
-)
 CODE_TYPE = (
-    ('GBP / AUD', 'GBP / AUD'),
-    ('EUR / JPY', 'EUR / JPY'),
-    ('GOLD', 'GOLD'),
+    # ('GBP/AUD', 'GBP/AUD'),
+    # ('EUR/JPY', 'EUR/JPY'),
+    # ('GOLD', 'GOLD'),
     ('BITCOIN', 'BITCOIN'),
 )
 
 DATE_TYPE = (
-    ('20-06-17', '2020년 6월 17일'),
-    ('20-06-18', '2020년 6월 18일'),
-    ('20-06-19', '2020년 6월 19일'),
-    ('20-06-20', '2020년 6월 20일'),
+    ('2020-06-17', '2020년 6월 17일'),
+    ('2020-06-18', '2020년 6월 18일'),
+    ('2020-06-19', '2020년 6월 19일'),
+    ('2020-06-20', '2020년 6월 20일'),
+    ('2020-06-21', '2020년 6월 21일'),
+    ('2020-06-22', '2020년 6월 22일'),
+    ('2020-06-23', '2020년 6월 23일'),
+    ('2020-06-24', '2020년 6월 24일'),
+    ('2020-06-25', '2020년 6월 25일'),
+    ('2020-06-26', '2020년 6월 26일'),
 )
+
+HOUR_TYPE = [
+    ('00', '0시'),
+    ('01', '1시'),
+    ('02', '2시'),
+    ('03', '3시'),
+    ('04', '4시'),
+    ('05', '5시'),
+    ('06', '6시'),
+    ('07', '7시'),
+    ('08', '8시'),
+    ('09', '9시'),
+    ('10', '10시'),
+    ('11', '11시'),
+    ('12', '12시'),
+    ('13', '13시'),
+    ('14', '14시'),
+    ('15', '15시'),
+    ('16', '16시'),
+    ('17', '17시'),
+    ('18', '18시'),
+    ('19', '19시'),
+    ('20', '20시'),
+    ('21', '21시'),
+    ('22', '22시'),
+    ('23', '23시'),
+]
 
 
 class ChartForm(forms.Form):
-    date = forms.ChoiceField(
-        widget=forms.Select(attrs={'class': "form-control", 'id': "select_date", 'onChange': "selectChange()"}),
-        choices=DATE_TYPE, initial='20-06-20',
-    )
     code = forms.ChoiceField(
         widget=forms.Select(attrs={'class': "form-control", 'id': "select_code", 'onChange': "selectChange()"}),
         choices=CODE_TYPE, initial='GBP / AUD',
     )
-    email = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Email', 'class': "form-control"}))
-    first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'First Name', 'class': "form-control"}))
-    last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Last Name', 'class': "form-control"}))
-    mobile = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Mobile', 'class': "form-control"}))
-    permission_dashboard = forms.ChoiceField(
-        widget=forms.Select(attrs={'class': "form-control"}),
-        choices=PERMISSION_TYPE, initial='Business',
+    date = forms.ChoiceField(
+        widget=forms.Select(attrs={'class': "form-control", 'id': "select_date", 'onChange': "selectChange()"}),
+        choices=DATE_TYPE, initial='20-06-20',
     )
-    permission_hotel_information = forms.ChoiceField(
-        widget=forms.Select(attrs={'class': "form-control"}),
-        choices=PERMISSION_TYPE, initial='Can View',
-    )
-    permission_hotel_room = forms.ChoiceField(
-        widget=forms.Select(attrs={'class': "form-control"}),
-        choices=PERMISSION_TYPE, initial='Can View',
-    )
-    permission_hotel_extra_product = forms.ChoiceField(
-        widget=forms.Select(attrs={'class': "form-control"}),
-        choices=PERMISSION_TYPE, initial='Can View',
-    )
-    permission_hotel_facility = forms.ChoiceField(
-        widget=forms.Select(attrs={'class': "form-control"}),
-        choices=PERMISSION_TYPE, initial='Can View',
-    )
-    permission_management_staff = forms.ChoiceField(
-        widget=forms.Select(attrs={'class': "form-control"}),
-        choices=PERMISSION_TYPE, initial='Access Denied',
-    )
-    permission_management_customer = forms.ChoiceField(
-        widget=forms.Select(attrs={'class': "form-control"}),
-        choices=PERMISSION_TYPE, initial='Can Edit',
-    )
-    permission_payment = forms.ChoiceField(
-        widget=forms.Select(attrs={'class': "form-control"}),
-        choices=PERMISSION_TYPE, initial='Can Edit',
-    )
-    permission_connectivity = forms.ChoiceField(
-        widget=forms.Select(attrs={'class': "form-control"}),
-        choices=PERMISSION_TYPE, initial='Access Denied',
-    )
-    permission_booking = forms.ChoiceField(
-        widget=forms.Select(attrs={'class': "form-control"}),
-        choices=PERMISSION_TYPE, initial='Can Edit',
-    )
-    permission_report = forms.ChoiceField(
-        widget=forms.Select(attrs={'class': "form-control"}),
-        choices=PERMISSION_TYPE, initial='Access Denied',
+    hour = forms.ChoiceField(
+        widget=forms.Select(attrs={'class': "form-control", 'id': "select_hour", 'onChange': "selectChange()"}),
+        choices=HOUR_TYPE, initial='9',
     )

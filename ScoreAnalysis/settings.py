@@ -101,8 +101,14 @@ WSGI_APPLICATION = 'ScoreAnalysis.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'axp365',
+        'USER': 'halu',
+        'PASSWORD': 'gkfn12#$',
+        'HOST': 'ec2-15-164-98-86.ap-northeast-2.compute.amazonaws.com',
+        'PORT': '3306',
     }
 }
 
@@ -129,7 +135,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko'
 
 TIME_ZONE = 'UTC'
 

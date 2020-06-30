@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+
+{% load adminlte_helpers i18n %}
+{% load static %}
+
+<html>
+<head>
+    {% block title_outer %}
+        <title>{% block title %}Service Name{% endblock %}</title>
+    {% endblock %}
+
+    {% block meta %}
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    {% endblock %}
+
+    {% block stylesheets %}
+        {% include 'styles.html' %}
+    {% endblock %}
+
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="hold-transition sidebar-mini {% block body_class %}{% block bodyclass %}{% endblock %}{% endblock %}">
+    {% block body %}
+        <div class="wrapper">
+            {% block nav_header %}
+                {% include 'main_header.html' %}
+            {% endblock %}
+
+            {% block content_wrapper %}
+                <div class="content-wrapper">
+                    {% block content_header %}
+                        <section class="content-header">
+                            {% block no_heading %}
+                                <h1>
+                                    {% block page_name %}
+
+                                        <div class="row text-right">
+                                            <div class="col-md-3 text-right">
+                                                <div class="form-group">
+                                                    {{ form.code }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 text-right">
+                                                <div class="form-group">
+                                                    {{ form.date }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 pr-2">
+
+                                                <h5>일 기준 </h5>
+                                                <div class="form-group">
+                                                    {{ form.hour }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    {% endblock %}
+                                    <div class="header-actions">
+                                        {% block page_actions %}{% endblock %}
+                                    </div>
+                                    {% block no_description %}
+                                        <small>{% block page_description %}{% endblock %}</small>
+                                    {% endblock %}
+                                </h1>
+                                {% block breadcrumbs %}
+                                    {# Breadcrumb implementation left to developers #}
+
+                                {% endblock %}
+                            {% endblock no_heading %}
+                        </section>
+                    {% endblock %}
+
+                    {% block content_outer %}
+                        <section class="content">
+                            {% block messages %}
+                                {% include 'messages.html' %}
+                            {% endblock %}
+
+                            {% block content_block_wrap %}
+                                {% block content %}
+
+                                    <table id="table_result" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">code</th>
+                                                <th class="text-center">time</th>
+                                                <th class="text-center no-sort">open price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <script>
+            let date_list = '{{ date_list }}';
+        </script>
+                                            {% for ticker in ticker_1_list %}
+                                                <tr>
+                                                    <td class="text-center">{{ ticker.code }}</td>
+                                                    <td class="text-center">{{ ticker.start_time|date:"Y-m-d H:i" }}</td>
+                                                    <td class="text-center">{{ ticker.open_price }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                    <table>
+
+{#                                                                                {% for date in date_list %}#}
+{#                                                <tr>#}
+{#                                                    <td class="text-center">{{ date.ticker_date }}</td>#}
+{#                                                </tr>#}
+{#                                            {% endfor %}#}
+
+                                    </table>
+                                {% endblock %}
+                            {% endblock %}
+                        </section>
+                    {% endblock %}
+                </div>
+            {% endblock content_wrapper %}
+
+            {% block nav_footer %}
+                {% include 'main_footer.html' %}
+            {% endblock %}
+        </div>
+    {% endblock body %}
+
+    {% block javascript %}
+        {% include 'scripts.html' %}
+
+        <script>
+
+            $( document ).ready(function() {
+                const queryString = window.location.search;
+                const urlParams = new URLSearchParams(queryString);
+                const select_code = urlParams.get('code')
+                const select_date = urlParams.get('date')
+                const select_hour = urlParams.get('hour')
+
+                console.log(date_list)
+
+                if (select_code) {
+                    document.getElementById("select_code").value = select_code;
+                }
+                if (select_date) {
+                    document.getElementById("select_date").value = select_date;
+                }
+                if (select_hour) {
+                    document.getElementById("select_hour").value = select_hour;
+                }
+
+                $(function () {
+                    $('#table_result').DataTable({
+                        "columnDefs": [{
+                            "targets": 'no-sort',
+                            "orderable": false,
+                        }],
+                        {#"scrollX": true, #}
+                    });
+                });
+            });
+
+            function selectChange() {
+                let select_code = document.getElementById("select_code").value;
+                let select_date = document.getElementById("select_date").value;
+                let select_hour = document.getElementById("select_hour").value;
+                window.location.replace("./list?code=" + select_code + "&date=" + select_date + "&hour=" + select_hour);
+            }
+        </script>
+
+    {% endblock %}
+
+    {% block extra_js %}{% endblock %}
+
+    {% block extra_foot %}{% endblock %}
+</body>
+</html>

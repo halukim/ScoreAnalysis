@@ -3,55 +3,232 @@
 {% load static %}
 
 {% block page_name %}
-    <div class="row text-right">
-        <div class="col-md-3 text-right">
+    <div class="row text-right align-middle">
+        <div class="col-md-3 align-middle text-right">
             <div class="form-group">
                 {{ form.code }}
             </div>
         </div>
         <div class="col-md-3 text-right">
+
             <div class="form-group">
-                {{ form.date }}
+                <select class="form-control" id="select_date" onChange=selectChange()>
+                    {% for date in date_list %}
+                        <option>{{ date.ticker_date }}</option>
+                    {% endfor %}
+                </select>
             </div>
         </div>
-        <div class="col-md-6 pr-2">
-{#            <div class="callout callout-danger">#}
-                  <h5>일 기준 [ 오전 09:00:00 ~ 익일 오전 08:59:59 ]</h5>
-{#            </div>#}
+        <!--div class="col-md-3 text-right">
+            <h5>일 기준 시작 시간 : </h5>
+        </div-->
+        <div class="col-md-3 text-right">
+            <div class="form-group">
+                {{ form.hour }}
+            </div>
         </div>
     </div>
 {% endblock %}
 
 {% block content %}
+    <script>
+        let tickers_1 = [
+        {% for ticker in ticker_1_list %}
+            {% if not forloop.first %},{% endif %}
+            {
+                code: "{{ ticker.code }}",
+                start_time: "{{ ticker.start_time|date:"Y-m-d H:i" }}",
+                open_price: "{{ ticker.open_price }}",
+                status: "{{ ticker.status }}"
+            }
+        {% endfor %}
+        ]
+
+        let tickers_2 = [
+        {% for ticker in ticker_2_list %}
+            {% if not forloop.first %},{% endif %}
+            {
+                code: "{{ ticker.code }}",
+                start_time: "{{ ticker.start_time|date:"Y-m-d H:i" }}",
+                open_price: "{{ ticker.open_price }}",
+                status: "{{ ticker.status }}"
+            }
+        {% endfor %}
+        ]
+
+        let tickers_3 = [
+        {% for ticker in ticker_3_list %}
+            {% if not forloop.first %},{% endif %}
+            {
+                code: "{{ ticker.code }}",
+                start_time: "{{ ticker.start_time|date:"Y-m-d H:i" }}",
+                open_price: "{{ ticker.open_price }}",
+                status: "{{ ticker.status }}"
+            }
+        {% endfor %}
+        ]
+
+        let tickers_5 = [
+        {% for ticker in ticker_5_list %}
+            {% if not forloop.first %},{% endif %}
+            {
+                code: "{{ ticker.code }}",
+                start_time: "{{ ticker.start_time|date:"Y-m-d H:i" }}",
+                open_price: "{{ ticker.open_price }}",
+                status: "{{ ticker.status }}"
+            }
+        {% endfor %}
+        ]
+
+        function convertTicker(tickers) {
+            let result = {'cnt':{}, 'table':{}}
+            let before = ''
+            let cnt_index = 0
+            let cnt_total = 0
+            let cnt_up_max = 0
+            let cnt_down_max = 0
+            let cnt_up = 0
+            let cnt_down = 0
+            let cnt_up_down_total = []
+            let cnt_up_down_total_temp = 0
+            let table = []
+            let table_temp = []
+            let type_start = 'down'
+
+            let i;
+            for (i = 0; i < tickers.length; i++) {
+                if (before != tickers[i]['status']) {
+                    cnt_index += 1;
+                    if (cnt_total > 0) {
+                        cnt_up_down_total.push(cnt_up_down_total_temp);
+                        if (cnt_index % 2 == 0) {
+                            if (cnt_up_down_total_temp > cnt_up_max) {
+                                cnt_up_max = cnt_up_down_total_temp;
+                            }
+                        } else {
+                            if (cnt_up_down_total_temp > cnt_down_max) {
+                                cnt_down_max = cnt_up_down_total_temp;
+                            }
+                        }
+                    } else {
+                        if ("2" == tickers[i]['status']) {
+                            type_start = 'up'
+                        }
+                    }
+                    cnt_up_down_total_temp = 1;
+
+                    if (cnt_total > 0) {
+                        table.push(table_temp);
+                    }
+                    if ("2" == tickers[i]['status']) {
+                        table_temp = [cnt_total + 1]
+                    } else {
+                        table_temp = [-(cnt_total + 1)]
+                    }
+                } else {
+                    cnt_up_down_total_temp += 1;
+
+                    if ("2" == tickers[i]['status']) {
+                        table_temp.push(cnt_total + 1);
+                    } else {
+                        table_temp.push(-(cnt_total + 1));
+                    }
+                }
+
+                if ("2" == tickers[i]['status']) {
+                    cnt_up += 1;
+                } else {
+                    cnt_down += 1;
+                }
+                before = tickers[i]['status'];
+                cnt_total += 1;
+            }
+
+
+            cnt_up_down_total.push(cnt_up_down_total_temp);
+            if (cnt_index % 2 == 1) {
+                if (cnt_up_down_total_temp > cnt_up_max) {
+                    cnt_up_max = cnt_up_down_total_temp;
+                }
+            } else {
+                if (cnt_up_down_total_temp > cnt_down_max) {
+                    cnt_down_max = cnt_up_down_total_temp;
+                }
+            }
+
+            if (type_start == 'down') {
+                let temp = cnt_up_max;
+                cnt_up_max = cnt_down_max;
+                cnt_down_max = cnt_up_max;
+            }
+
+            if (table_temp.length > 0) {
+                table.push(table_temp);
+            }
+
+            result.cnt.index = cnt_index;
+            result.cnt.total = cnt_total;
+            result.cnt.up = cnt_up;
+            result.cnt.down = cnt_down;
+            result.cnt.up_max = cnt_up_max;
+            result.cnt.down_max = cnt_down_max;
+            result.cnt.up_down_total = cnt_up_down_total;
+            result.table = table;
+            result.type_start = type_start;
+
+            let cnt_sideway = 0;
+            let cnt_sideway_temp = 0;
+            for (i = 0; i < cnt_up_down_total.length; i++) {
+                if (cnt_up_down_total[i] == 1) {
+                    cnt_sideway_temp += 1;
+                } else {
+                    if (cnt_sideway_temp > 3) {
+                        cnt_sideway += 1;
+                    }
+                    cnt_sideway_temp = 0;
+                }
+            }
+            result.cnt.sideway = cnt_sideway;
+            return result;
+        }
+
+        let ticker_1_list = convertTicker(tickers_1);
+        let ticker_2_list = convertTicker(tickers_2);
+        let ticker_3_list = convertTicker(tickers_3);
+        let ticker_5_list = convertTicker(tickers_5);
+
+
+
+    </script>
 
     <div class="card">
         <div class="card-header p-2">
             <ul class="nav nav-pills">
-                <li class="nav-item"><a class="nav-link active" href="#1min" data-toggle="tab">1분</a></li>
-                <li class="nav-item"><a class="nav-link" href="#2min" data-toggle="tab">2분</a></li>
-                <li class="nav-item"><a class="nav-link" href="#3min" data-toggle="tab">3분</a></li>
-                <li class="nav-item"><a class="nav-link" href="#5min" data-toggle="tab">5분</a></li>
+                <li class="nav-item"><a class="nav-link active" href="#one" data-toggle="tab">1분</a></li>
+                <li class="nav-item"><a class="nav-link" href="#two" data-toggle="tab">2분</a></li>
+                <li class="nav-item"><a class="nav-link" href="#three" data-toggle="tab">3분</a></li>
+                <li class="nav-item"><a class="nav-link" href="#five" data-toggle="tab">5분</a></li>
             </ul>
         </div>
         <div class="card-body">
             <div class="tab-content">
-                <div class="active tab-pane" id="1min">
+                <div class="active tab-pane" id="one">
                     <div class="row">
                         <div class="col-md-9">
                             <span class="badge bg-danger text-md">상승</span>
-                            <span class="p-2">44번 (55%)</span>
-                            <span class="p-2">7연속</span>
+                            <span class="p-2"><span class="p-1" id="up_1">번</span><span id="up_ratio_1">(%)</span></span>
+                            <span class="p-2"id="up_max_1">연속</span>
                             <span class="p-4"></span>
                             <span class="badge bg-primary text-md">하락</span>
-                            <span class="p-2">36번 (45%)</span>
-                            <span class="p-2">5연속</span>
+                            <span class="p-2"><span class="p-1" id="down_1">번</span><span id="down_ratio_1">(%)</span></span>
+                            <span class="p-2" id="down_max_1">연속</span>
                         </div>
                         <div class="col-md-3 text-right">
                             <span class="badge bg-indigo text-md">퐁당</span>
-                            <span class="p-2">3번</span>
+                            <span class="p-2" id="sideway_1">번</span>
                             <span class="p-4"></span>
                                 <span class="badge bg-gray text-md">꺽음</span>
-                            <span class="p-2">40번</span>
+                            <span class="p-2" id="index_1">번</span>
                         </div>
                     </div>
                     <br/>
@@ -59,430 +236,12 @@
                     <div class="table-responsive border-danger">
                         <table class="table table-bordered">
                             <thead>
-                                <tr class="text-center align-center">
-                                    <th class="th-high">상승</th>
-                                    <th class="th-low">하락</th>
-                                    <th class="th-high">상승</th>
-                                    <th class="th-low">하락</th>
-                                    <th class="th-high">상승</th>
-                                    <th class="th-low">하락</th>
-                                    <th class="th-high">상승</th>
-                                    <th class="th-low">하락</th>
-                                    <th class="th-high">상승</th>
-                                    <th class="th-low">하락</th>
-                                    <th class="th-high">상승</th>
-                                    <th class="th-low">하락</th>
-                                    <th class="th-high">상승</th>
-                                    <th class="th-low">하락</th>
-                                    <th class="th-high">상승</th>
-                                    <th class="th-low">하락</th>
-                                    <th class="th-high">상승</th>
-                                    <th class="th-low">하락</th>
-                                    <th class="th-high">상승</th>
-                                    <th class="th-low">하락</th>
-                                    <th class="th-high">상승</th>
-                                    <th class="th-low">하락</th>
-                                    <th class="th-high">상승</th>
-                                    <th class="th-low">하락</th>
-                                    <th class="th-high">상승</th>
-                                    <th class="th-low">하락</th>
-                                    <th class="th-high">상승</th>
-                                    <th class="th-low">하락</th>
-                                    <th class="th-high">상승</th>
-                                    <th class="th-low">하락</th>
-                                    <th class="th-high">상승</th>
-                                    <th class="th-low">하락</th>
-                                    <th class="th-high">상승</th>
-                                    <th class="th-low">하락</th>
-                                    <th class="th-high">상승</th>
-                                    <th class="th-low">하락</th>
-                                    <th class="th-high">상승</th>
-                                    <th class="th-low">하락</th>
-                                    <th class="th-high">상승</th>
-                                    <th class="th-low">하락</th>
-                                </tr>
+                                <tr class="text-center align-center" id="th_1"></tr>
                             </thead>
-                            <tbody>
-                                <tr class="text-center">
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">1</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">2</span></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">3</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">4</span></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">5</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">6</span></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">7</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">8</span></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">9</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">16</span></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">21</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">22</span></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">23</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">24</span></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">25</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">26</span></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">27</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">28</span></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">29</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">36</span></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">41</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">42</span></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">43</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">44</span></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">45</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">46</span></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">47</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">48</span></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">49</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">56</span></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">61</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">62</span></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">63</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">64</span></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">65</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">66</span></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">67</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">68</span></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">69</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">76</span></td>
-                                </tr>
-                                <tr class="text-center">
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">10</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">17</span></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">30</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">37</span></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">50</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">57</span></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">70</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">77</span></td>
-                                </tr>
-                                <tr class="text-center">
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">11</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">18</span></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">31</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">38</span></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">51</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">58</span></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">71</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">78</span></td>
-                                </tr>
-                                <tr class="text-center">
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">12</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">19</span></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">32</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">39</span></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">52</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">59</span></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">72</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">79</span></td>
-                                </tr>
-                                <tr class="text-center">
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">13</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">20</span></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">33</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">40</span></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">53</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">60</span></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">73</span></td>
-                                    <td class="td-result"><span class="badge bg-primary text-md m-1">80</span></td>
-                                </tr>
-                                <tr class="text-center">
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">14</span></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">34</span></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">54</span></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">74</span></td>
-                                    <td class="td-result"></td>
-                                </tr>
-                                <tr class="text-center">
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">15</span></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">35</span></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">55</span></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"></td>
-                                    <td class="td-result"><span class="badge bg-danger text-md m-1">75</span></td>
-                                    <td class="td-result"></td>
-                                </tr>
-                            </tbody>
+                            <tbody class="text-center align-center" id="tbody_1"></tbody>
                             <tfoot>
-                                <tr class="text-center">
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">7</td>
-                                    <td class="tf-index">5</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">7</td>
-                                    <td class="tf-index">5</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">7</td>
-                                    <td class="tf-index">5</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">7</td>
-                                    <td class="tf-index">5</td>
-                                </tr>
-                                <tr class="text-center" style="background-color: black; color: white;">
-                                    <td class="tf-index">1</td>
-                                    <td class="tf-index">2</td>
-                                    <td class="tf-index">3</td>
-                                    <td class="tf-index">4</td>
-                                    <td class="tf-index">5</td>
-                                    <td class="tf-index">6</td>
-                                    <td class="tf-index">7</td>
-                                    <td class="tf-index">8</td>
-                                    <td class="tf-index">9</td>
-                                    <td class="tf-index">10</td>
-                                    <td class="tf-index">11</td>
-                                    <td class="tf-index">12</td>
-                                    <td class="tf-index">13</td>
-                                    <td class="tf-index">14</td>
-                                    <td class="tf-index">15</td>
-                                    <td class="tf-index">16</td>
-                                    <td class="tf-index">17</td>
-                                    <td class="tf-index">18</td>
-                                    <td class="tf-index">19</td>
-                                    <td class="tf-index">20</td>
-                                    <td class="tf-index">21</td>
-                                    <td class="tf-index">22</td>
-                                    <td class="tf-index">23</td>
-                                    <td class="tf-index">24</td>
-                                    <td class="tf-index">25</td>
-                                    <td class="tf-index">26</td>
-                                    <td class="tf-index">27</td>
-                                    <td class="tf-index">28</td>
-                                    <td class="tf-index">29</td>
-                                    <td class="tf-index">30</td>
-                                    <td class="tf-index">31</td>
-                                    <td class="tf-index">32</td>
-                                    <td class="tf-index">33</td>
-                                    <td class="tf-index">34</td>
-                                    <td class="tf-index">35</td>
-                                    <td class="tf-index">36</td>
-                                    <td class="tf-index">37</td>
-                                    <td class="tf-index">38</td>
-                                    <td class="tf-index">39</td>
-                                    <td class="tf-index">40</td>
-                                </tr>
+                                <tr class="text-center" id="tf_total_1"></tr>
+                                <tr class="text-center" style="background-color: black; color: white;" id="tf_index_1"></tr>
                             </tfoot>
                         </table>
                     </div>
@@ -516,115 +275,214 @@
                                 </div>
                             </div>
                         </div>
-                    </div-->
-                    <br/>
+                    </div>
+                    <br/-->
 
-                    <table id="table_result" class="table table-bordered table-striped">
+                    <table id="table_result_1" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th class="text-center">게임 시간</th>
+                                <th class="text-center no-sort">종목</th>
                                 <th class="text-center no-sort">시가</th>
                                 <th class="text-center no-sort">상태</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="text-center">21일 17시 26분</td>
-                                <td class="text-center">9,3412.72</td>
-                                <td class="text-center"><span class="badge bg-danger text-md">상승</span></td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">21일 17시 25분</td>
-                                <td class="text-center">9,3412.71</td>
-                                <td class="text-center"><span class="badge bg-primary text-md">하락</span></td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">21일 17시 24분</td>
-                                <td class="text-center">9,3412.70</td>
-                                <td class="text-center"><span class="badge bg-danger text-md">상승</span></td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">21일 17시 23분</td>
-                                <td class="text-center">9,3412.69</td>
-                                <td class="text-center"><span class="badge bg-primary text-md">하락</span></td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">21일 17시 22분</td>
-                                <td class="text-center">9,3412.70</td>
-                                <td class="text-center"><span class="badge bg-danger text-md">상승</span></td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">21일 17시 21분</td>
-                                <td class="text-center">9,3412.69</td>
-                                <td class="text-center"><span class="badge bg-primary text-md">하락</span></td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">21일 17시 20분</td>
-                                <td class="text-center">9,3412.70</td>
-                                <td class="text-center"><span class="badge bg-danger text-md">상승</span></td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">21일 17시 19분</td>
-                                <td class="text-center">9,3412.69</td>
-                                <td class="text-center"><span class="badge bg-primary text-md">하락</span></td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">21일 17시 18분</td>
-                                <td class="text-center">9,3412.70</td>
-                                <td class="text-center"><span class="badge bg-danger text-md">상승</span></td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">21일 17시 17분</td>
-                                <td class="text-center">9,3412.69</td>
-                                <td class="text-center"><span class="badge bg-primary text-md">하락</span></td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">21일 17시 16분</td>
-                                <td class="text-center">9,3412.72</td>
-                                <td class="text-center"><span class="badge bg-danger text-md">상승</span></td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">21일 17시 15분</td>
-                                <td class="text-center">9,3412.71</td>
-                                <td class="text-center"><span class="badge bg-primary text-md">하락</span></td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">21일 17시 14분</td>
-                                <td class="text-center">9,3412.70</td>
-                                <td class="text-center"><span class="badge bg-danger text-md">상승</span></td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">21일 17시 13분</td>
-                                <td class="text-center">9,3412.69</td>
-                                <td class="text-center"><span class="badge bg-primary text-md">하락</span></td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">21일 17시 12분</td>
-                                <td class="text-center">9,3412.70</td>
-                                <td class="text-center"><span class="badge bg-danger text-md">상승</span></td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">21일 17시 11분</td>
-                                <td class="text-center">9,3412.69</td>
-                                <td class="text-center"><span class="badge bg-primary text-md">하락</span></td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">21일 17시 10분</td>
-                                <td class="text-center">9,3412.70</td>
-                                <td class="text-center"><span class="badge bg-danger text-md">상승</span></td>
-                            </tr>
+                            {% for ticker in ticker_1_list %}
+                                <tr>
+                                    <td class="text-center">{{ ticker.start_time|date:"Y-m-d H:i" }}</td>
+                                    <td class="text-center">{{ ticker.code }}</td>
+                                    <td class="text-center">{{ ticker.open_price }}</td>
+                                    {% if ticker.status == 2 %}
+                                        <td class="text-center"><span class="badge bg-danger text-md">상승</span></td>
+                                    {% else %}
+                                        <td class="text-center"><span class="badge bg-primary text-md">하락</span></td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
-
                 </div>
-                <div class="tab-pane" id="2min">
 
+                <div class="tab-pane" id="two">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <span class="badge bg-danger text-md">상승</span>
+                            <span class="p-2"><span class="p-1" id="up_2">번</span><span id="up_ratio_2">(%)</span></span>
+                            <span class="p-2"id="up_max_2">연속</span>
+                            <span class="p-4"></span>
+                            <span class="badge bg-primary text-md">하락</span>
+                            <span class="p-2"><span class="p-1" id="down_2">번</span><span id="down_ratio_2">(%)</span></span>
+                            <span class="p-2" id="down_max_2">연속</span>
+                        </div>
+                        <div class="col-md-3 text-right">
+                            <span class="badge bg-indigo text-md">퐁당</span>
+                            <span class="p-2" id="sideway_2">번</span>
+                            <span class="p-4"></span>
+                                <span class="badge bg-gray text-md">꺽음</span>
+                            <span class="p-2" id="index_2">번</span>
+                        </div>
+                    </div>
+                    <br/>
+
+                    <div class="table-responsive border-danger">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="text-center align-center" id="th_2"></tr>
+                            </thead>
+                            <tbody class="text-center align-center" id="tbody_2"></tbody>
+                            <tfoot>
+                                <tr class="text-center" id="tf_total_2"></tr>
+                                <tr class="text-center" style="background-color: black; color: white;" id="tf_index_2"></tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <br/>
+
+                    <table id="table_result_2" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th class="text-center">게임 시간</th>
+                                <th class="text-center no-sort">종목</th>
+                                <th class="text-center no-sort">시가</th>
+                                <th class="text-center no-sort">상태</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ticker in ticker_2_list %}
+                                <tr>
+                                    <td class="text-center">{{ ticker.start_time|date:"Y-m-d H:i" }}</td>
+                                    <td class="text-center">{{ ticker.code }}</td>
+                                    <td class="text-center">{{ ticker.open_price }}</td>
+                                    {% if ticker.status == 2 %}
+                                        <td class="text-center"><span class="badge bg-danger text-md">상승</span></td>
+                                    {% else %}
+                                        <td class="text-center"><span class="badge bg-primary text-md">하락</span></td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
-                <div class="tab-pane" id="3min">
+                <div class="tab-pane" id="three">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <span class="badge bg-danger text-md">상승</span>
+                            <span class="p-2"><span class="p-1" id="up_3">번</span><span id="up_ratio_3">(%)</span></span>
+                            <span class="p-2"id="up_max_3">연속</span>
+                            <span class="p-4"></span>
+                            <span class="badge bg-primary text-md">하락</span>
+                            <span class="p-2"><span class="p-1" id="down_3">번</span><span id="down_ratio_3">(%)</span></span>
+                            <span class="p-2" id="down_max_3">연속</span>
+                        </div>
+                        <div class="col-md-3 text-right">
+                            <span class="badge bg-indigo text-md">퐁당</span>
+                            <span class="p-2" id="sideway_3">번</span>
+                            <span class="p-4"></span>
+                                <span class="badge bg-gray text-md">꺽음</span>
+                            <span class="p-2" id="index_3">번</span>
+                        </div>
+                    </div>
+                    <br/>
 
+                    <div class="table-responsive border-danger">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="text-center align-center" id="th_3"></tr>
+                            </thead>
+                            <tbody class="text-center align-center" id="tbody_3"></tbody>
+                            <tfoot>
+                                <tr class="text-center" id="tf_total_3"></tr>
+                                <tr class="text-center" style="background-color: black; color: white;" id="tf_index_3"></tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <br/>
+
+                    <table id="table_result_3" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th class="text-center">게임 시간</th>
+                                <th class="text-center no-sort">종목</th>
+                                <th class="text-center no-sort">시가</th>
+                                <th class="text-center no-sort">상태</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ticker in ticker_3_list %}
+                                <tr>
+                                    <td class="text-center">{{ ticker.start_time|date:"Y-m-d H:i" }}</td>
+                                    <td class="text-center">{{ ticker.code }}</td>
+                                    <td class="text-center">{{ ticker.open_price }}</td>
+                                    {% if ticker.status == 2 %}
+                                        <td class="text-center"><span class="badge bg-danger text-md">상승</span></td>
+                                    {% else %}
+                                        <td class="text-center"><span class="badge bg-primary text-md">하락</span></td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
-                <div class="tab-pane" id="5min">
+                <div class="tab-pane" id="five">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <span class="badge bg-danger text-md">상승</span>
+                            <span class="p-2"><span class="p-1" id="up_5">번</span><span id="up_ratio_5">(%)</span></span>
+                            <span class="p-2"id="up_max_5">연속</span>
+                            <span class="p-4"></span>
+                            <span class="badge bg-primary text-md">하락</span>
+                            <span class="p-2"><span class="p-1" id="down_5">번</span><span id="down_ratio_5">(%)</span></span>
+                            <span class="p-2" id="down_max_5">연속</span>
+                        </div>
+                        <div class="col-md-3 text-right">
+                            <span class="badge bg-indigo text-md">퐁당</span>
+                            <span class="p-2" id="sideway_5">번</span>
+                            <span class="p-4"></span>
+                                <span class="badge bg-gray text-md">꺽음</span>
+                            <span class="p-2" id="index_5">번</span>
+                        </div>
+                    </div>
+                    <br/>
 
+                    <div class="table-responsive border-danger">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="text-center align-center" id="th_5"></tr>
+                            </thead>
+                            <tbody class="text-center align-center" id="tbody_5"></tbody>
+                            <tfoot>
+                                <tr class="text-center" id="tf_total_5"></tr>
+                                <tr class="text-center" style="background-color: black; color: white;" id="tf_index_5"></tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <br/>
+
+                    <table id="table_result_5" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th class="text-center">게임 시간</th>
+                                <th class="text-center no-sort">종목</th>
+                                <th class="text-center no-sort">시가</th>
+                                <th class="text-center no-sort">상태</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ticker in ticker_5_list %}
+                                <tr>
+                                    <td class="text-center">{{ ticker.start_time|date:"Y-m-d H:i" }}</td>
+                                    <td class="text-center">{{ ticker.code }}</td>
+                                    <td class="text-center">{{ ticker.open_price }}</td>
+                                    {% if ticker.status == 2 %}
+                                        <td class="text-center"><span class="badge bg-danger text-md">상승</span></td>
+                                    {% else %}
+                                        <td class="text-center"><span class="badge bg-primary text-md">하락</span></td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -634,31 +492,326 @@
 {% block javascript %}
     {{ block.super }}
     <script>
+        $( document ).ready(function() {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const select_code = urlParams.get('code')
+            const select_date = urlParams.get('date')
+            const select_hour = urlParams.get('hour')
 
-        $(function () {
-            $('#table_result').DataTable({
-                "columnDefs": [{
-                    "targets": 'no-sort',
-                    "orderable": false,
-                }],
-                {#"scrollX": true, #}
+            document.getElementById("up_1").innerHTML = ticker_1_list.cnt.up + '번';
+            document.getElementById("up_ratio_1").innerHTML = '(' + Math.round(ticker_1_list.cnt.up * 10000 / ticker_1_list.cnt.total) / 100 + '%)';
+            document.getElementById("up_max_1").innerHTML = ticker_1_list.cnt.up_max + '연속';
+            document.getElementById("down_1").innerHTML = ticker_1_list.cnt.down + '번';
+            document.getElementById("down_ratio_1").innerHTML = '(' + Math.round(ticker_1_list.cnt.down * 10000 / ticker_1_list.cnt.total) / 100 + '%)';
+            document.getElementById("down_max_1").innerHTML = ticker_1_list.cnt.down_max + '연속';
+            document.getElementById("index_1").innerHTML = ticker_1_list.cnt.index + '번';
+            document.getElementById("sideway_1").innerHTML = ticker_1_list.cnt.sideway + '번';
+
+            document.getElementById("up_2").innerHTML = ticker_2_list.cnt.up + '번';
+            document.getElementById("up_ratio_2").innerHTML = '(' + Math.round(ticker_2_list.cnt.up * 10000 / ticker_2_list.cnt.total) / 100 + '%)';
+            document.getElementById("up_max_2").innerHTML = ticker_2_list.cnt.up_max + '연속';
+            document.getElementById("down_2").innerHTML = ticker_2_list.cnt.down + '번';
+            document.getElementById("down_ratio_2").innerHTML = '(' + Math.round(ticker_2_list.cnt.down * 10000 / ticker_2_list.cnt.total) / 100 + '%)';
+            document.getElementById("down_max_2").innerHTML = ticker_2_list.cnt.down_max + '연속';
+            document.getElementById("index_2").innerHTML = ticker_2_list.cnt.index + '번';
+            document.getElementById("sideway_2").innerHTML = ticker_2_list.cnt.sideway + '번';
+
+            document.getElementById("up_3").innerHTML = ticker_3_list.cnt.up + '번';
+            document.getElementById("up_ratio_3").innerHTML = '(' + Math.round(ticker_3_list.cnt.up * 10000 / ticker_3_list.cnt.total) / 100 + '%)';
+            document.getElementById("up_max_3").innerHTML = ticker_3_list.cnt.up_max + '연속';
+            document.getElementById("down_3").innerHTML = ticker_3_list.cnt.down + '번';
+            document.getElementById("down_ratio_3").innerHTML = '(' + Math.round(ticker_3_list.cnt.down * 10000 / ticker_3_list.cnt.total) / 100 + '%)';
+            document.getElementById("down_max_3").innerHTML = ticker_3_list.cnt.down_max + '연속';
+            document.getElementById("index_3").innerHTML = ticker_3_list.cnt.index + '번';
+            document.getElementById("sideway_3").innerHTML = ticker_3_list.cnt.sideway + '번';
+
+            document.getElementById("up_5").innerHTML = ticker_5_list.cnt.up + '번';
+            document.getElementById("up_ratio_5").innerHTML = '(' + Math.round(ticker_5_list.cnt.up * 10000 / ticker_5_list.cnt.total) / 100 + '%)';
+            document.getElementById("up_max_5").innerHTML = ticker_5_list.cnt.up_max + '연속';
+            document.getElementById("down_5").innerHTML = ticker_5_list.cnt.down + '번';
+            document.getElementById("down_ratio_5").innerHTML = '(' + Math.round(ticker_5_list.cnt.down * 10000 / ticker_5_list.cnt.total) / 100 + '%)';
+            document.getElementById("down_max_5").innerHTML = ticker_5_list.cnt.down_max + '연속';
+            document.getElementById("index_5").innerHTML = ticker_5_list.cnt.index + '번';
+            document.getElementById("sideway_5").innerHTML = ticker_5_list.cnt.sideway + '번';
+
+            let i, j = 0;
+            let mod = 0;
+            let max = 0;
+
+            let node_tr = document.createElement("tr");
+            let node_td = document.createElement("td");
+            let node_span = document.createElement("span");
+            let node_th = document.createElement("th");
+            let node_tf_total = document.createElement("td");
+            let node_tf_index = document.createElement("td");
+            if (ticker_1_list.type_start == 'up') {
+                mod = 0;
+            } else {
+                mod = 1;
+            }
+
+            for (i = 0; i < ticker_1_list.cnt.index; i++) {
+                if (i % 2 == mod) {
+                    node_th = document.createElement("th")
+                    node_th.classList.add("th-high");
+                    node_th.innerHTML = '상승';
+                    document.getElementById("th_1").appendChild(node_th);
+                } else {
+                    node_th = document.createElement("th")
+                    node_th.classList.add("th-low");
+                    node_th.innerHTML = '하락';
+                    document.getElementById("th_1").appendChild(node_th);
+                }
+
+                node_tf_total = document.createElement("td")
+                node_tf_total.classList.add("th-index");
+                node_tf_total.innerHTML = ticker_1_list.cnt.up_down_total[i];
+                document.getElementById("tf_total_1").appendChild(node_tf_total);
+
+                node_tf_index = document.createElement("td")
+                node_tf_index.classList.add("th-index");
+                node_tf_index.innerHTML = i + 1;
+                document.getElementById("tf_index_1").appendChild(node_tf_index);
+            }
+
+            max = Math.max.apply(Math, ticker_1_list.cnt.up_down_total);
+            for (i = 0; i < max; i++) {
+                node_tr = document.createElement("tr")
+                for (j = 0; j < ticker_1_list.cnt.index; j++) {
+                    node_td = document.createElement("td");
+                    node_td.classList.add("td-result");
+                    if (ticker_1_list.table[j].length > i) {
+                        node_span = document.createElement("span");
+                        node_span.classList.add("text-md");
+                        node_span.classList.add("m-1");
+                        node_span.classList.add("badge");
+                        if (ticker_1_list.table[j][i] > 0) {
+                            node_span.classList.add("bg-danger");
+                            node_span.innerHTML = ticker_1_list.table[j][i];
+                        } else {
+                            node_span.classList.add("bg-primary");
+                            node_span.innerHTML = -ticker_1_list.table[j][i];
+                        }
+                        node_td.appendChild(node_span);
+                    }
+                    node_tr.appendChild(node_td);
+                }
+                document.getElementById("tbody_1").appendChild(node_tr);
+            }
+
+            if (ticker_2_list.type_start == 'up') {
+                mod = 0;
+            } else {
+                mod = 1;
+            }
+
+            for (i = 0; i < ticker_2_list.cnt.index; i++) {
+                if (i % 2 == mod) {
+                    node_th = document.createElement("th")
+                    node_th.classList.add("th-high");
+                    node_th.innerHTML = '상승';
+                    document.getElementById("th_2").appendChild(node_th);
+                } else {
+                    node_th = document.createElement("th")
+                    node_th.classList.add("th-low");
+                    node_th.innerHTML = '하락';
+                    document.getElementById("th_2").appendChild(node_th);
+                }
+
+                node_tf_total = document.createElement("td")
+                node_tf_total.classList.add("th-index");
+                node_tf_total.innerHTML = ticker_2_list.cnt.up_down_total[i];
+                document.getElementById("tf_total_2").appendChild(node_tf_total);
+
+                node_tf_index = document.createElement("td")
+                node_tf_index.classList.add("th-index");
+                node_tf_index.innerHTML = i + 1;
+                document.getElementById("tf_index_2").appendChild(node_tf_index);
+            }
+
+            max = Math.max.apply(Math, ticker_2_list.cnt.up_down_total);
+            for (i = 0; i < max; i++) {
+                node_tr = document.createElement("tr")
+                for (j = 0; j < ticker_2_list.cnt.index; j++) {
+                    node_td = document.createElement("td");
+                    node_td.classList.add("td-result");
+                    if (ticker_2_list.table[j].length > i) {
+                        node_span = document.createElement("span");
+                        node_span.classList.add("text-md");
+                        node_span.classList.add("m-1");
+                        node_span.classList.add("badge");
+                        if (ticker_2_list.table[j][i] > 0) {
+                            node_span.classList.add("bg-danger");
+                            node_span.innerHTML = ticker_2_list.table[j][i];
+                        } else {
+                            node_span.classList.add("bg-primary");
+                            node_span.innerHTML = -ticker_2_list.table[j][i];
+                        }
+                        node_td.appendChild(node_span);
+                    }
+                    node_tr.appendChild(node_td);
+                }
+                document.getElementById("tbody_2").appendChild(node_tr);
+            }
+
+            if (ticker_3_list.type_start == 'up') {
+                mod = 0;
+            } else {
+                mod = 1;
+            }
+
+            for (i = 0; i < ticker_3_list.cnt.index; i++) {
+                if (i % 2 == mod) {
+                    node_th = document.createElement("th")
+                    node_th.classList.add("th-high");
+                    node_th.innerHTML = '상승';
+                    document.getElementById("th_3").appendChild(node_th);
+                } else {
+                    node_th = document.createElement("th")
+                    node_th.classList.add("th-low");
+                    node_th.innerHTML = '하락';
+                    document.getElementById("th_3").appendChild(node_th);
+                }
+
+                node_tf_total = document.createElement("td")
+                node_tf_total.classList.add("th-index");
+                node_tf_total.innerHTML = ticker_3_list.cnt.up_down_total[i];
+                document.getElementById("tf_total_3").appendChild(node_tf_total);
+
+                node_tf_index = document.createElement("td")
+                node_tf_index.classList.add("th-index");
+                node_tf_index.innerHTML = i + 1;
+                document.getElementById("tf_index_3").appendChild(node_tf_index);
+            }
+
+            max = Math.max.apply(Math, ticker_3_list.cnt.up_down_total);
+            for (i = 0; i < max; i++) {
+                node_tr = document.createElement("tr")
+                for (j = 0; j < ticker_3_list.cnt.index; j++) {
+                    node_td = document.createElement("td");
+                    node_td.classList.add("td-result");
+                    if (ticker_3_list.table[j].length > i) {
+                        node_span = document.createElement("span");
+                        node_span.classList.add("text-md");
+                        node_span.classList.add("m-1");
+                        node_span.classList.add("badge");
+                        if (ticker_3_list.table[j][i] > 0) {
+                            node_span.classList.add("bg-danger");
+                            node_span.innerHTML = ticker_3_list.table[j][i];
+                        } else {
+                            node_span.classList.add("bg-primary");
+                            node_span.innerHTML = -ticker_3_list.table[j][i];
+                        }
+                        node_td.appendChild(node_span);
+                    }
+                    node_tr.appendChild(node_td);
+                }
+                document.getElementById("tbody_3").appendChild(node_tr);
+            }
+
+            if (ticker_5_list.type_start == 'up') {
+                mod = 0;
+            } else {
+                mod = 1;
+            }
+
+            for (i = 0; i < ticker_5_list.cnt.index; i++) {
+                if (i % 2 == mod) {
+                    node_th = document.createElement("th")
+                    node_th.classList.add("th-high");
+                    node_th.innerHTML = '상승';
+                    document.getElementById("th_5").appendChild(node_th);
+                } else {
+                    node_th = document.createElement("th")
+                    node_th.classList.add("th-low");
+                    node_th.innerHTML = '하락';
+                    document.getElementById("th_5").appendChild(node_th);
+                }
+
+                node_tf_total = document.createElement("td")
+                node_tf_total.classList.add("th-index");
+                node_tf_total.innerHTML = ticker_5_list.cnt.up_down_total[i];
+                document.getElementById("tf_total_5").appendChild(node_tf_total);
+
+                node_tf_index = document.createElement("td")
+                node_tf_index.classList.add("th-index");
+                node_tf_index.innerHTML = i + 1;
+                document.getElementById("tf_index_5").appendChild(node_tf_index);
+            }
+
+            max = Math.max.apply(Math, ticker_5_list.cnt.up_down_total);
+            for (i = 0; i < max; i++) {
+                node_tr = document.createElement("tr")
+                for (j = 0; j < ticker_5_list.cnt.index; j++) {
+                    node_td = document.createElement("td");
+                    node_td.classList.add("td-result");
+                    if (ticker_5_list.table[j].length > i) {
+                        node_span = document.createElement("span");
+                        node_span.classList.add("text-md");
+                        node_span.classList.add("m-1");
+                        node_span.classList.add("badge");
+                        if (ticker_5_list.table[j][i] > 0) {
+                            node_span.classList.add("bg-danger");
+                            node_span.innerHTML = ticker_5_list.table[j][i];
+                        } else {
+                            node_span.classList.add("bg-primary");
+                            node_span.innerHTML = -ticker_5_list.table[j][i];
+                        }
+                        node_td.appendChild(node_span);
+                    }
+                    node_tr.appendChild(node_td);
+                }
+                document.getElementById("tbody_5").appendChild(node_tr);
+            }
+
+
+
+            {#window.location.replace("./chart?code=Bitcoin&date=" + date_list[date_list.length - 1].date_value + "&hour=09");#}
+
+            if (select_code) {
+                document.getElementById("select_code").value = select_code;
+            }
+            if (select_date) {
+                document.getElementById("select_date").value = select_date;
+            }
+            if (select_hour) {
+                document.getElementById("select_hour").value = select_hour;
+            }
+
+            $(function () {
+                $('#table_result_5').DataTable({
+                    "columnDefs": [{
+                        "targets": 'no-sort',
+                        "orderable": false,
+                    }],
+                });
+                $('#table_result_3').DataTable({
+                    "columnDefs": [{
+                        "targets": 'no-sort',
+                        "orderable": false,
+                    }],
+                });
+                $('#table_result_2').DataTable({
+                    "columnDefs": [{
+                        "targets": 'no-sort',
+                        "orderable": false,
+                    }],
+                });
+                $('#table_result_1').DataTable({
+                    "columnDefs": [{
+                        "targets": 'no-sort',
+                        "orderable": false,
+                    }],
+                });
             });
         });
 
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000
-        });
-
         function selectChange() {
-            Toast.fire({
-                type: 'warning',
-                title: 'API 연결 후 적용될 예정입니다.'
-            })
+            let select_code = document.getElementById("select_code").value;
+            let select_date = document.getElementById("select_date").value;
+            let select_hour = document.getElementById("select_hour").value;
+            window.location.replace("./chart?code=" + select_code + "&date=" + select_date + "&hour=" + select_hour);
         }
-
-
     </script>
 {% endblock javascript %}
