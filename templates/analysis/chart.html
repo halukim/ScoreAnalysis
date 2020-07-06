@@ -31,6 +31,88 @@
 {% endblock %}
 
 {% block content %}
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="color-palette-set p-2">
+                  <div class="bg-success color-palette text-lg pl-2">1분 게임</div>
+                  <div class="bg-success disabled color-palette"><span><h2 class="text-center" id="timer_1"></h2></span></div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="color-palette-set p-2">
+                  <div class="bg-success color-palette text-lg pl-2">2분 게임</div>
+                  <div class="bg-success disabled color-palette"><span><h2 class="text-center" id="timer_2"></h2></span></div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="color-palette-set p-2">
+                  <div class="bg-success color-palette text-lg pl-2">3분 게임</div>
+                  <div class="bg-success disabled color-palette"><span><h2 class="text-center" id="timer_3"></h2></span></div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="color-palette-set p-2">
+                  <div class="bg-success color-palette text-lg pl-2">5분 게임</div>
+                  <div class="bg-success disabled color-palette"><span><h2 class="text-center" id="timer_5"></h2></span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 p-2">
+            <div class="callout callout-danger">
+                <h5>퐁당퐁당!</h5>
+                <p>상승과 하락이 반복해서 2회 이상 나타나는 것을 <b>퐁당퐁당</b> 이라고 한다. Deep Learning 기반으로 시계열 데이터를 실시간으로 분석해 패턴의 결과와 확률을 예측한다.</p>
+                <p>적중률 보기(클릭시 퐁당퐁당 예측 과거 적중 확률 보기 페이지로 이동 또는 결과를 팝업으로 보여줌)</p>
+            </div>
+        </div>
+        <div class="col-md-3"><span class="p-2" id="prediction_pdpd_percent_1">1분 게임 예측 : </span><span class="p-2" id="prediction_pdpd_result_1"> - </span></div>
+        <div class="col-md-3"><span class="p-2" id="prediction_pdpd_percent_2">2분 게임 예측 : </span><span class="p-2" id="prediction_pdpd_result_2"> - </span></div>
+        <div class="col-md-3"><span class="p-2" id="prediction_pdpd_percent_3">3분 게임 예측 : </span><span class="p-2" id="prediction_pdpd_result_3"> - </span></div>
+        <div class="col-md-3"><span class="p-2" id="prediction_pdpd_percent_5">5분 게임 예측 : </span><span class="p-2" id="prediction_pdpd_result_5"> - </span></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 p-2">
+            <div class="callout callout-warning">
+                <h5>줄!</h5>
+                <p>상승 또는 하락이 반복해서 5회 이상 나타나는 것을 <b>줄</b> 이라고 한다. Deep Learning 기반으로 시계열 데이터를 실시간으로 분석해 패턴의 결과와 확률을 예측한다.</p>
+                <p>적중률 보기(클릭시 줄 예측 과거 적중 확률 보기 페이지로 이동 또는 결과를 팝업으로 보여줌)</p>
+            </div>
+        </div>
+        <div class="col-md-3"><span class="p-2" id="prediction_st_percent_1">1분 게임 예측 : </span><span class="p-2" id="prediction_st_result_1"> - </span></div>
+        <div class="col-md-3"><span class="p-2" id="prediction_st_percent_2">2분 게임 예측 : </span><span class="p-2" id="prediction_st_result_2"> - </span></div>
+        <div class="col-md-3"><span class="p-2" id="prediction_st_percent_3">3분 게임 예측 : </span><span class="p-2" id="prediction_st_result_3"> - </span></div>
+        <div class="col-md-3"><span class="p-2" id="prediction_st_percent_5">5분 게임 예측 : </span><span class="p-2" id="prediction_st_result_5"> - </span></div>
+    </div>
+    <!--div class="row">
+        <div class="col-md-12 p-2">
+            <div class="callout callout-warning">
+                <h5>퐁당퐁당!</h5>
+                <p>퐁당퐁당 설명</p>
+                <p>클릭시 퐁당퐁당 과거 적중 확률 보기 페이지로 이동 또는 결과를 팝업으로 보여줌</p>
+            </div>
+        </div>
+        <div class="col-md-3"><span class="p-2" id="prediction_pdpd_percent_1">확률</span><span class="p-2" id="prediction_pdpd_percent_1">예측</span></div>
+        <div class="col-md-3"><span class="p-2" id="prediction_pdpd_percent_2">확률</span><span class="p-2" id="prediction_pdpd_percent_2">예측</span></div>
+        <div class="col-md-3"><span class="p-2" id="prediction_pdpd_percent_3">확률</span><span class="p-2" id="prediction_pdpd_percent_3">예측</span></div>
+        <div class="col-md-3"><span class="p-2" id="prediction_pdpd_percent_5">확률</span><span class="p-2" id="prediction_pdpd_percent_5">예측</span></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 p-2">
+            <div class="callout callout-info">
+                <h5>퐁당퐁당!</h5>
+                <p>퐁당퐁당 설명</p>
+                <p>클릭시 퐁당퐁당 과거 적중 확률 보기 페이지로 이동 또는 결과를 팝업으로 보여줌</p>
+            </div>
+        </div>
+        <div class="col-md-3"><span class="p-2" id="prediction_pdpd_percent_1">확률</span><span class="p-2" id="prediction_pdpd_percent_1">예측</span></div>
+        <div class="col-md-3"><span class="p-2" id="prediction_pdpd_percent_2">확률</span><span class="p-2" id="prediction_pdpd_percent_2">예측</span></div>
+        <div class="col-md-3"><span class="p-2" id="prediction_pdpd_percent_3">확률</span><span class="p-2" id="prediction_pdpd_percent_3">예측</span></div>
+        <div class="col-md-3"><span class="p-2" id="prediction_pdpd_percent_5">확률</span><span class="p-2" id="prediction_pdpd_percent_5">예측</span></div>
+    </div-->
+    <br/>
+
     <script>
         let tickers_1 = [
         {% for ticker in ticker_1_list %}
@@ -806,6 +888,173 @@
                 });
             });
         });
+
+        // Set the date we're counting down to
+        var countDownDate = new Date("Jan 1, 2022 00:00:00").getTime();
+
+        // Update the count down every 1 second
+        var x = setInterval(function() {
+
+            // Get today's date and time
+            var now = new Date().getTime();
+
+            // Find the distance between now and the count down date
+            var distance = countDownDate - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the result in the element with id="demo"
+            document.getElementById("timer_1").innerHTML = minutes % 1 + " : " + seconds;
+            document.getElementById("timer_2").innerHTML = minutes % 2 + " : " + seconds;
+            document.getElementById("timer_3").innerHTML = minutes % 3 + " : " + seconds;
+            document.getElementById("timer_5").innerHTML = minutes % 5 + " : " + seconds;
+
+            if (seconds == 20) {
+                let per = Math.floor(Math.random() * 10000) / 100
+                document.getElementById("prediction_pdpd_percent_1").innerHTML = "1분 게임 예측 : 확률(" + per + "%)";
+                if (Math.floor(Math.random() * 10) % 2 == 0) {
+                    document.getElementById("prediction_pdpd_result_1").classList.add("th-high");
+                    document.getElementById("prediction_pdpd_result_1").innerHTML = "상승";
+                } else {
+                    document.getElementById("prediction_pdpd_result_1").classList.add("th-low");
+                    document.getElementById("prediction_pdpd_result_1").innerHTML = "하락";
+                }
+            } else if (seconds > 20) {
+                document.getElementById("prediction_pdpd_percent_1").innerHTML = "1분 게임 예측 : ";
+                document.getElementById("prediction_pdpd_result_1").innerHTML = " - ";
+                document.getElementById("prediction_pdpd_result_1").classList.remove("th-high");
+                document.getElementById("prediction_pdpd_result_1").classList.remove("th-low");
+            }
+
+            if (minutes % 2 == 0 & seconds == 25) {
+                let per = Math.floor(Math.random() * 10000) / 100
+                document.getElementById("prediction_pdpd_percent_2").innerHTML = "2분 게임 예측 : 확률(" + per + "%)";
+                if (Math.floor(Math.random() * 10) % 2 == 0) {
+                    document.getElementById("prediction_pdpd_result_2").classList.add("th-high");
+                    document.getElementById("prediction_pdpd_result_2").innerHTML = "상승";
+                } else {
+                    document.getElementById("prediction_pdpd_result_2").classList.add("th-low");
+                    document.getElementById("prediction_pdpd_result_2").innerHTML = "하락";
+                }
+            } else if (minutes % 2 > 0 | seconds > 30) {
+                document.getElementById("prediction_pdpd_percent_2").innerHTML = "2분 게임 예측 : ";
+                document.getElementById("prediction_pdpd_result_2").innerHTML = " - ";
+                document.getElementById("prediction_pdpd_result_2").classList.remove("th-high");
+                document.getElementById("prediction_pdpd_result_2").classList.remove("th-low");
+            }
+
+            if (minutes % 3 == 0 & seconds == 30) {
+                let per = Math.floor(Math.random() * 10000) / 100
+                document.getElementById("prediction_pdpd_percent_3").innerHTML = "3분 게임 예측 : 확률(" + per + "%)";
+                if (Math.floor(Math.random() * 10) % 2 == 0) {
+                    document.getElementById("prediction_pdpd_result_3").classList.add("th-high");
+                    document.getElementById("prediction_pdpd_result_3").innerHTML = "상승";
+                } else {
+                    document.getElementById("prediction_pdpd_result_3").classList.add("th-low");
+                    document.getElementById("prediction_pdpd_result_3").innerHTML = "하락";
+                }
+            } else if (minutes % 3 > 0 | seconds > 30) {
+                document.getElementById("prediction_pdpd_percent_3").innerHTML = "3분 게임 예측 : ";
+                document.getElementById("prediction_pdpd_result_3").innerHTML = " - ";
+                document.getElementById("prediction_pdpd_result_3").classList.remove("th-high");
+                document.getElementById("prediction_pdpd_result_3").classList.remove("th-low");
+            }
+
+            if (minutes % 5 == 0 & seconds == 40) {
+                let per = Math.floor(Math.random() * 10000) / 100
+                document.getElementById("prediction_pdpd_percent_5").innerHTML = "5분 게임 예측 : 확률(" + per + "%)";
+                if (Math.floor(Math.random() * 10) % 2 == 0) {
+                    document.getElementById("prediction_pdpd_result_5").classList.add("th-high");
+                    document.getElementById("prediction_pdpd_result_5").innerHTML = "상승";
+                } else {
+                    document.getElementById("prediction_pdpd_result_5").classList.add("th-low");
+                    document.getElementById("prediction_pdpd_result_5").innerHTML = "하락";
+                }
+            } else if (minutes % 5 > 0 | seconds > 40) {
+                document.getElementById("prediction_pdpd_percent_5").innerHTML = "5분 게임 예측 : ";
+                document.getElementById("prediction_pdpd_result_5").innerHTML = " - ";
+                document.getElementById("prediction_pdpd_result_5").classList.remove("th-high");
+                document.getElementById("prediction_pdpd_result_5").classList.remove("th-low");
+            }
+
+            if (seconds == 20) {
+                let per = Math.floor(Math.random() * 10000) / 100
+                document.getElementById("prediction_st_percent_1").innerHTML = "1분 게임 예측 : 확률(" + per + "%)";
+                if (Math.floor(Math.random() * 10) % 2 == 0) {
+                    document.getElementById("prediction_st_result_1").classList.add("th-high");
+                    document.getElementById("prediction_st_result_1").innerHTML = "상승";
+                } else {
+                    document.getElementById("prediction_st_result_1").classList.add("th-low");
+                    document.getElementById("prediction_st_result_1").innerHTML = "하락";
+                }
+            } else if (seconds > 20) {
+                document.getElementById("prediction_st_percent_1").innerHTML = "1분 게임 예측 : ";
+                document.getElementById("prediction_st_result_1").innerHTML = " - ";
+                document.getElementById("prediction_st_result_1").classList.remove("th-high");
+                document.getElementById("prediction_st_result_1").classList.remove("th-low");
+            }
+
+            if (minutes % 2 == 0 & seconds == 25) {
+                let per = Math.floor(Math.random() * 10000) / 100
+                document.getElementById("prediction_st_percent_2").innerHTML = "2분 게임 예측 : 확률(" + per + "%)";
+                if (Math.floor(Math.random() * 10) % 2 == 0) {
+                    document.getElementById("prediction_st_result_2").classList.add("th-high");
+                    document.getElementById("prediction_st_result_2").innerHTML = "상승";
+                } else {
+                    document.getElementById("prediction_st_result_2").classList.add("th-low");
+                    document.getElementById("prediction_st_result_2").innerHTML = "하락";
+                }
+            } else if (minutes % 2 > 0 | seconds > 30) {
+                document.getElementById("prediction_st_percent_2").innerHTML = "2분 게임 예측 : ";
+                document.getElementById("prediction_st_result_2").innerHTML = " - ";
+                document.getElementById("prediction_st_result_2").classList.remove("th-high");
+                document.getElementById("prediction_st_result_2").classList.remove("th-low");
+            }
+
+            if (minutes % 3 == 0 & seconds == 30) {
+                let per = Math.floor(Math.random() * 10000) / 100
+                document.getElementById("prediction_st_percent_3").innerHTML = "3분 게임 예측 : 확률(" + per + "%)";
+                if (Math.floor(Math.random() * 10) % 2 == 0) {
+                    document.getElementById("prediction_st_result_3").classList.add("th-high");
+                    document.getElementById("prediction_st_result_3").innerHTML = "상승";
+                } else {
+                    document.getElementById("prediction_st_result_3").classList.add("th-low");
+                    document.getElementById("prediction_st_result_3").innerHTML = "하락";
+                }
+            } else if (minutes % 3 > 0 | seconds > 30) {
+                document.getElementById("prediction_st_percent_3").innerHTML = "3분 게임 예측 : ";
+                document.getElementById("prediction_st_result_3").innerHTML = " - ";
+                document.getElementById("prediction_st_result_3").classList.remove("th-high");
+                document.getElementById("prediction_st_result_3").classList.remove("th-low");
+            }
+
+            if (minutes % 5 == 0 & seconds == 40) {
+                let per = Math.floor(Math.random() * 10000) / 100
+                document.getElementById("prediction_st_percent_5").innerHTML = "5분 게임 예측 : 확률(" + per + "%)";
+                if (Math.floor(Math.random() * 10) % 2 == 0) {
+                    document.getElementById("prediction_st_result_5").classList.add("th-high");
+                    document.getElementById("prediction_st_result_5").innerHTML = "상승";
+                } else {
+                    document.getElementById("prediction_st_result_5").classList.add("th-low");
+                    document.getElementById("prediction_st_result_5").innerHTML = "하락";
+                }
+            } else if (minutes % 5 > 0 | seconds > 40) {
+                document.getElementById("prediction_st_percent_5").innerHTML = "5분 게임 예측 : ";
+                document.getElementById("prediction_st_result_5").innerHTML = " - ";
+                document.getElementById("prediction_st_result_5").classList.remove("th-high");
+                document.getElementById("prediction_st_result_5").classList.remove("th-low");
+            }
+
+            // If the count down is finished, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("demo").innerHTML = "EXPIRED";
+            }
+        }, 1000);
 
         function selectChange() {
             let select_code = document.getElementById("select_code").value;
