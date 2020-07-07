@@ -1,177 +1,1038 @@
-<!DOCTYPE html>
+{% extends 'base_product.html' %}
 
-{% load adminlte_helpers i18n %}
 {% load static %}
 
-<html>
-<head>
-    {% block title_outer %}
-        <title>{% block title %}Service Name{% endblock %}</title>
-    {% endblock %}
+{% block content %}
 
-    {% block meta %}
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
-        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    {% endblock %}
-
-    {% block stylesheets %}
-        {% include 'styles.html' %}
-    {% endblock %}
-
-    {% block extra_head %}{% endblock %}
-</head>
-<body class="hold-transition sidebar-mini {% block body_class %}{% block bodyclass %}{% endblock %}{% endblock %}">
-    {% block body %}
-        <div class="wrapper">
-            {% block nav_header %}
-                {% include 'main_header.html' %}
-            {% endblock %}
-
-            {% block content_wrapper %}
-                <div class="content-wrapper">
-                    {% block content_header %}
-                        <section class="content-header">
-                            {% block no_heading %}
-                                <h1>
-                                    {% block page_name %}
-
-                                        <div class="row text-right">
-                                            <div class="col-md-3 text-right">
-                                                <div class="form-group">
-                                                    {{ form.code }}
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3 text-right">
-                                                <div class="form-group">
-                                                    {{ form.date }}
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 pr-2">
-
-                                                <h5>일 기준 </h5>
-                                                <div class="form-group">
-                                                    {{ form.hour }}
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    {% endblock %}
-                                    <div class="header-actions">
-                                        {% block page_actions %}{% endblock %}
-                                    </div>
-                                    {% block no_description %}
-                                        <small>{% block page_description %}{% endblock %}</small>
-                                    {% endblock %}
-                                </h1>
-                                {% block breadcrumbs %}
-                                    {# Breadcrumb implementation left to developers #}
-
-                                {% endblock %}
-                            {% endblock no_heading %}
-                        </section>
-                    {% endblock %}
-
-                    {% block content_outer %}
-                        <section class="content">
-                            {% block messages %}
-                                {% include 'messages.html' %}
-                            {% endblock %}
-
-                            {% block content_block_wrap %}
-                                {% block content %}
-
-                                    <table id="table_result" class="table table-bordered table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center">code</th>
-                                                <th class="text-center">time</th>
-                                                <th class="text-center no-sort">open price</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                                <script>
-            let date_list = '{{ date_list }}';
-        </script>
-                                            {% for ticker in ticker_1_list %}
-                                                <tr>
-                                                    <td class="text-center">{{ ticker.code }}</td>
-                                                    <td class="text-center">{{ ticker.start_time|date:"Y-m-d H:i" }}</td>
-                                                    <td class="text-center">{{ ticker.open_price }}</td>
-                                                </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-
-                                    <table>
-
-{#                                                                                {% for date in date_list %}#}
-{#                                                <tr>#}
-{#                                                    <td class="text-center">{{ date.ticker_date }}</td>#}
-{#                                                </tr>#}
-{#                                            {% endfor %}#}
-
-                                    </table>
-                                {% endblock %}
-                            {% endblock %}
-                        </section>
-                    {% endblock %}
-                </div>
-            {% endblock content_wrapper %}
-
-            {% block nav_footer %}
-                {% include 'main_footer.html' %}
-            {% endblock %}
+    <div class="row">
+        <div class="col-md-3">
+            <div class="color-palette-set p-2">
+                  <div class="bg-success color-palette text-lg pl-2">1분 게임</div>
+                  <div class="bg-success disabled color-palette"><span><h2 class="text-center" id="timer_1"></h2></span></div>
+            </div>
         </div>
-    {% endblock body %}
+        <div class="col-md-3">
+            <div class="color-palette-set p-2">
+                  <div class="bg-success color-palette text-lg pl-2">2분 게임</div>
+                  <div class="bg-success disabled color-palette"><span><h2 class="text-center" id="timer_2"></h2></span></div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="color-palette-set p-2">
+                  <div class="bg-success color-palette text-lg pl-2">3분 게임</div>
+                  <div class="bg-success disabled color-palette"><span><h2 class="text-center" id="timer_3"></h2></span></div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="color-palette-set p-2">
+                  <div class="bg-success color-palette text-lg pl-2">5분 게임</div>
+                  <div class="bg-success disabled color-palette"><span><h2 class="text-center" id="timer_5"></h2></span></div>
+            </div>
+        </div>
+    </div>
 
-    {% block javascript %}
-        {% include 'scripts.html' %}
+    <div class="row">
+        <div class="col-md-12 p-2">
+            <div class="callout callout-danger">
+                <h5>퐁당퐁당!</h5>
+                <p>상승과 하락이 반복해서 2회 이상 나타나는 것을 <b>퐁당퐁당</b> 이라고 한다. Deep Learning 기반으로 시계열 데이터를 실시간으로 분석해 패턴의 결과와 확률을 예측한다.</p>
+                <p>적중률 보기(클릭시 퐁당퐁당 예측 과거 적중 확률 보기 페이지로 이동 또는 결과를 팝업으로 보여줌)</p>
+            </div>
+        </div>
+        <div class="col-md-3"><span class="p-2" id="prediction_pdpd_percent_1">1분 게임 예측 : </span><span class="p-2" id="prediction_pdpd_result_1"> - </span></div>
+        <div class="col-md-3"><span class="p-2" id="prediction_pdpd_percent_2">2분 게임 예측 : </span><span class="p-2" id="prediction_pdpd_result_2"> - </span></div>
+        <div class="col-md-3"><span class="p-2" id="prediction_pdpd_percent_3">3분 게임 예측 : </span><span class="p-2" id="prediction_pdpd_result_3"> - </span></div>
+        <div class="col-md-3"><span class="p-2" id="prediction_pdpd_percent_5">5분 게임 예측 : </span><span class="p-2" id="prediction_pdpd_result_5"> - </span></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 p-2">
+            <div class="callout callout-warning">
+                <h5>줄!</h5>
+                <p>상승 또는 하락이 반복해서 5회 이상 나타나는 것을 <b>줄</b> 이라고 한다. Deep Learning 기반으로 시계열 데이터를 실시간으로 분석해 패턴의 결과와 확률을 예측한다.</p>
+                <p>적중률 보기(클릭시 줄 예측 과거 적중 확률 보기 페이지로 이동 또는 결과를 팝업으로 보여줌)</p>
+            </div>
+        </div>
+        <div class="col-md-3"><span class="p-2" id="prediction_st_percent_1">1분 게임 예측 : </span><span class="p-2" id="prediction_st_result_1"> - </span></div>
+        <div class="col-md-3"><span class="p-2" id="prediction_st_percent_2">2분 게임 예측 : </span><span class="p-2" id="prediction_st_result_2"> - </span></div>
+        <div class="col-md-3"><span class="p-2" id="prediction_st_percent_3">3분 게임 예측 : </span><span class="p-2" id="prediction_st_result_3"> - </span></div>
+        <div class="col-md-3"><span class="p-2" id="prediction_st_percent_5">5분 게임 예측 : </span><span class="p-2" id="prediction_st_result_5"> - </span></div>
+    </div>
+    <!--div class="row">
+        <div class="col-md-12 p-2">
+            <div class="callout callout-warning">
+                <h5>퐁당퐁당!</h5>
+                <p>퐁당퐁당 설명</p>
+                <p>클릭시 퐁당퐁당 과거 적중 확률 보기 페이지로 이동 또는 결과를 팝업으로 보여줌</p>
+            </div>
+        </div>
+        <div class="col-md-3"><span class="p-2" id="prediction_pdpd_percent_1">확률</span><span class="p-2" id="prediction_pdpd_percent_1">예측</span></div>
+        <div class="col-md-3"><span class="p-2" id="prediction_pdpd_percent_2">확률</span><span class="p-2" id="prediction_pdpd_percent_2">예측</span></div>
+        <div class="col-md-3"><span class="p-2" id="prediction_pdpd_percent_3">확률</span><span class="p-2" id="prediction_pdpd_percent_3">예측</span></div>
+        <div class="col-md-3"><span class="p-2" id="prediction_pdpd_percent_5">확률</span><span class="p-2" id="prediction_pdpd_percent_5">예측</span></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 p-2">
+            <div class="callout callout-info">
+                <h5>퐁당퐁당!</h5>
+                <p>퐁당퐁당 설명</p>
+                <p>클릭시 퐁당퐁당 과거 적중 확률 보기 페이지로 이동 또는 결과를 팝업으로 보여줌</p>
+            </div>
+        </div>
+        <div class="col-md-3"><span class="p-2" id="prediction_pdpd_percent_1">확률</span><span class="p-2" id="prediction_pdpd_percent_1">예측</span></div>
+        <div class="col-md-3"><span class="p-2" id="prediction_pdpd_percent_2">확률</span><span class="p-2" id="prediction_pdpd_percent_2">예측</span></div>
+        <div class="col-md-3"><span class="p-2" id="prediction_pdpd_percent_3">확률</span><span class="p-2" id="prediction_pdpd_percent_3">예측</span></div>
+        <div class="col-md-3"><span class="p-2" id="prediction_pdpd_percent_5">확률</span><span class="p-2" id="prediction_pdpd_percent_5">예측</span></div>
+    </div-->
+    <br/>
 
-        <script>
+    <script>
+        let tickers_1 = [
+        {% for ticker in ticker_1_list %}
+            {% if not forloop.first %},{% endif %}
+            {
+                code: "{{ ticker.code }}",
+                start_time: "{{ ticker.start_time|date:"Y-m-d H:i" }}",
+                open_price: "{{ ticker.open_price }}",
+                status: "{{ ticker.status }}"
+            }
+        {% endfor %}
+        ]
 
-            $( document ).ready(function() {
-                const queryString = window.location.search;
-                const urlParams = new URLSearchParams(queryString);
-                const select_code = urlParams.get('code')
-                const select_date = urlParams.get('date')
-                const select_hour = urlParams.get('hour')
+        let tickers_2 = [
+        {% for ticker in ticker_2_list %}
+            {% if not forloop.first %},{% endif %}
+            {
+                code: "{{ ticker.code }}",
+                start_time: "{{ ticker.start_time|date:"Y-m-d H:i" }}",
+                open_price: "{{ ticker.open_price }}",
+                status: "{{ ticker.status }}"
+            }
+        {% endfor %}
+        ]
 
-                console.log(date_list)
+        let tickers_3 = [
+        {% for ticker in ticker_3_list %}
+            {% if not forloop.first %},{% endif %}
+            {
+                code: "{{ ticker.code }}",
+                start_time: "{{ ticker.start_time|date:"Y-m-d H:i" }}",
+                open_price: "{{ ticker.open_price }}",
+                status: "{{ ticker.status }}"
+            }
+        {% endfor %}
+        ]
 
-                if (select_code) {
-                    document.getElementById("select_code").value = select_code;
+        let tickers_5 = [
+        {% for ticker in ticker_5_list %}
+            {% if not forloop.first %},{% endif %}
+            {
+                code: "{{ ticker.code }}",
+                start_time: "{{ ticker.start_time|date:"Y-m-d H:i" }}",
+                open_price: "{{ ticker.open_price }}",
+                status: "{{ ticker.status }}"
+            }
+        {% endfor %}
+        ]
+
+        function convertTicker(tickers) {
+            let result = {'cnt':{}, 'table':{}}
+            let before = ''
+            let cnt_index = 0
+            let cnt_total = 0
+            let cnt_up_max = 0
+            let cnt_down_max = 0
+            let cnt_up = 0
+            let cnt_down = 0
+            let cnt_up_down_total = []
+            let cnt_up_down_total_temp = 0
+            let table = []
+            let table_temp = []
+            let type_start = 'down'
+
+            let i;
+            for (i = 0; i < tickers.length; i++) {
+                if (before != tickers[i]['status']) {
+                    cnt_index += 1;
+                    if (cnt_total > 0) {
+                        cnt_up_down_total.push(cnt_up_down_total_temp);
+                        if (cnt_index % 2 == 0) {
+                            if (cnt_up_down_total_temp > cnt_up_max) {
+                                cnt_up_max = cnt_up_down_total_temp;
+                            }
+                        } else {
+                            if (cnt_up_down_total_temp > cnt_down_max) {
+                                cnt_down_max = cnt_up_down_total_temp;
+                            }
+                        }
+                    } else {
+                        if ("2" == tickers[i]['status']) {
+                            type_start = 'up'
+                        }
+                    }
+                    cnt_up_down_total_temp = 1;
+
+                    if (cnt_total > 0) {
+                        table.push(table_temp);
+                    }
+                    if ("2" == tickers[i]['status']) {
+                        table_temp = [cnt_total + 1]
+                    } else {
+                        table_temp = [-(cnt_total + 1)]
+                    }
+                } else {
+                    cnt_up_down_total_temp += 1;
+
+                    if ("2" == tickers[i]['status']) {
+                        table_temp.push(cnt_total + 1);
+                    } else {
+                        table_temp.push(-(cnt_total + 1));
+                    }
                 }
-                if (select_date) {
-                    document.getElementById("select_date").value = select_date;
+
+                if ("2" == tickers[i]['status']) {
+                    cnt_up += 1;
+                } else {
+                    cnt_down += 1;
                 }
-                if (select_hour) {
-                    document.getElementById("select_hour").value = select_hour;
+                before = tickers[i]['status'];
+                cnt_total += 1;
+            }
+
+
+            cnt_up_down_total.push(cnt_up_down_total_temp);
+            if (cnt_index % 2 == 1) {
+                if (cnt_up_down_total_temp > cnt_up_max) {
+                    cnt_up_max = cnt_up_down_total_temp;
+                }
+            } else {
+                if (cnt_up_down_total_temp > cnt_down_max) {
+                    cnt_down_max = cnt_up_down_total_temp;
+                }
+            }
+
+            if (type_start == 'down') {
+                let temp = cnt_up_max;
+                cnt_up_max = cnt_down_max;
+                cnt_down_max = cnt_up_max;
+            }
+
+            if (table_temp.length > 0) {
+                table.push(table_temp);
+            }
+
+            result.cnt.index = cnt_index;
+            result.cnt.total = cnt_total;
+            result.cnt.up = cnt_up;
+            result.cnt.down = cnt_down;
+            result.cnt.up_max = cnt_up_max;
+            result.cnt.down_max = cnt_down_max;
+            result.cnt.up_down_total = cnt_up_down_total;
+            result.table = table;
+            result.type_start = type_start;
+
+            let cnt_sideway = 0;
+            let cnt_sideway_temp = 0;
+            for (i = 0; i < cnt_up_down_total.length; i++) {
+                if (cnt_up_down_total[i] == 1) {
+                    cnt_sideway_temp += 1;
+                } else {
+                    if (cnt_sideway_temp > 3) {
+                        cnt_sideway += 1;
+                    }
+                    cnt_sideway_temp = 0;
+                }
+            }
+            result.cnt.sideway = cnt_sideway;
+            return result;
+        }
+
+        let ticker_1_list = convertTicker(tickers_1);
+        let ticker_2_list = convertTicker(tickers_2);
+        let ticker_3_list = convertTicker(tickers_3);
+        let ticker_5_list = convertTicker(tickers_5);
+
+
+
+    </script>
+
+    <div class="card">
+        <div class="card-header p-2">
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a class="nav-link active" href="#one" data-toggle="tab">1분</a></li>
+                <li class="nav-item"><a class="nav-link" href="#two" data-toggle="tab">2분</a></li>
+                <li class="nav-item"><a class="nav-link" href="#three" data-toggle="tab">3분</a></li>
+                <li class="nav-item"><a class="nav-link" href="#five" data-toggle="tab">5분</a></li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="tab-content">
+                <div class="active tab-pane" id="one">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <span class="badge bg-danger text-md">상승</span>
+                            <span class="p-2"><span class="p-1" id="up_1">번</span><span id="up_ratio_1">(%)</span></span>
+                            <span class="p-2"id="up_max_1">연속</span>
+                            <span class="p-4"></span>
+                            <span class="badge bg-primary text-md">하락</span>
+                            <span class="p-2"><span class="p-1" id="down_1">번</span><span id="down_ratio_1">(%)</span></span>
+                            <span class="p-2" id="down_max_1">연속</span>
+                        </div>
+                        <div class="col-md-3 text-right">
+                            <span class="badge bg-indigo text-md">퐁당</span>
+                            <span class="p-2" id="sideway_1">번</span>
+                            <span class="p-4"></span>
+                                <span class="badge bg-gray text-md">꺽음</span>
+                            <span class="p-2" id="index_1">번</span>
+                        </div>
+                    </div>
+                    <br/>
+
+                    <div class="table-responsive border-danger">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="text-center align-center" id="th_1"></tr>
+                            </thead>
+                            <tbody class="text-center align-center" id="tbody_1"></tbody>
+                            <tfoot>
+                                <tr class="text-center" id="tf_total_1"></tr>
+                                <tr class="text-center" style="background-color: black; color: white;" id="tf_index_1"></tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <br/>
+
+                    <!--div class="row">
+                        <div class="col-md-6">
+                            <div class="card card-warning">
+                                <div class="card-header">
+                                    <h3 class="card-title">1일 누적 비교</h3>
+                                    <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="donutData" style="height:230px; min-height:230px"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card card-warning">
+                                <div class="card-header">
+                                    <h3 class="card-title">일별 추이 그래프</h3>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="barChart" style="height:230px; min-height:230px"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br/-->
+
+                    <table id="table_result_1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th class="text-center">게임 시간</th>
+                                <th class="text-center no-sort">종목</th>
+                                <th class="text-center no-sort">시가</th>
+                                <th class="text-center no-sort">상태</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ticker in ticker_1_list %}
+                                <tr>
+                                    <td class="text-center">{{ ticker.start_time|date:"Y-m-d H:i" }}</td>
+                                    <td class="text-center">{{ ticker.code }}</td>
+                                    <td class="text-center">{{ ticker.open_price }}</td>
+                                    {% if ticker.status == 2 %}
+                                        <td class="text-center"><span class="badge bg-danger text-md">상승</span></td>
+                                    {% else %}
+                                        <td class="text-center"><span class="badge bg-primary text-md">하락</span></td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="tab-pane" id="two">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <span class="badge bg-danger text-md">상승</span>
+                            <span class="p-2"><span class="p-1" id="up_2">번</span><span id="up_ratio_2">(%)</span></span>
+                            <span class="p-2"id="up_max_2">연속</span>
+                            <span class="p-4"></span>
+                            <span class="badge bg-primary text-md">하락</span>
+                            <span class="p-2"><span class="p-1" id="down_2">번</span><span id="down_ratio_2">(%)</span></span>
+                            <span class="p-2" id="down_max_2">연속</span>
+                        </div>
+                        <div class="col-md-3 text-right">
+                            <span class="badge bg-indigo text-md">퐁당</span>
+                            <span class="p-2" id="sideway_2">번</span>
+                            <span class="p-4"></span>
+                                <span class="badge bg-gray text-md">꺽음</span>
+                            <span class="p-2" id="index_2">번</span>
+                        </div>
+                    </div>
+                    <br/>
+
+                    <div class="table-responsive border-danger">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="text-center align-center" id="th_2"></tr>
+                            </thead>
+                            <tbody class="text-center align-center" id="tbody_2"></tbody>
+                            <tfoot>
+                                <tr class="text-center" id="tf_total_2"></tr>
+                                <tr class="text-center" style="background-color: black; color: white;" id="tf_index_2"></tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <br/>
+
+                    <table id="table_result_2" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th class="text-center">게임 시간</th>
+                                <th class="text-center no-sort">종목</th>
+                                <th class="text-center no-sort">시가</th>
+                                <th class="text-center no-sort">상태</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ticker in ticker_2_list %}
+                                <tr>
+                                    <td class="text-center">{{ ticker.start_time|date:"Y-m-d H:i" }}</td>
+                                    <td class="text-center">{{ ticker.code }}</td>
+                                    <td class="text-center">{{ ticker.open_price }}</td>
+                                    {% if ticker.status == 2 %}
+                                        <td class="text-center"><span class="badge bg-danger text-md">상승</span></td>
+                                    {% else %}
+                                        <td class="text-center"><span class="badge bg-primary text-md">하락</span></td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane" id="three">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <span class="badge bg-danger text-md">상승</span>
+                            <span class="p-2"><span class="p-1" id="up_3">번</span><span id="up_ratio_3">(%)</span></span>
+                            <span class="p-2"id="up_max_3">연속</span>
+                            <span class="p-4"></span>
+                            <span class="badge bg-primary text-md">하락</span>
+                            <span class="p-2"><span class="p-1" id="down_3">번</span><span id="down_ratio_3">(%)</span></span>
+                            <span class="p-2" id="down_max_3">연속</span>
+                        </div>
+                        <div class="col-md-3 text-right">
+                            <span class="badge bg-indigo text-md">퐁당</span>
+                            <span class="p-2" id="sideway_3">번</span>
+                            <span class="p-4"></span>
+                                <span class="badge bg-gray text-md">꺽음</span>
+                            <span class="p-2" id="index_3">번</span>
+                        </div>
+                    </div>
+                    <br/>
+
+                    <div class="table-responsive border-danger">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="text-center align-center" id="th_3"></tr>
+                            </thead>
+                            <tbody class="text-center align-center" id="tbody_3"></tbody>
+                            <tfoot>
+                                <tr class="text-center" id="tf_total_3"></tr>
+                                <tr class="text-center" style="background-color: black; color: white;" id="tf_index_3"></tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <br/>
+
+                    <table id="table_result_3" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th class="text-center">게임 시간</th>
+                                <th class="text-center no-sort">종목</th>
+                                <th class="text-center no-sort">시가</th>
+                                <th class="text-center no-sort">상태</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ticker in ticker_3_list %}
+                                <tr>
+                                    <td class="text-center">{{ ticker.start_time|date:"Y-m-d H:i" }}</td>
+                                    <td class="text-center">{{ ticker.code }}</td>
+                                    <td class="text-center">{{ ticker.open_price }}</td>
+                                    {% if ticker.status == 2 %}
+                                        <td class="text-center"><span class="badge bg-danger text-md">상승</span></td>
+                                    {% else %}
+                                        <td class="text-center"><span class="badge bg-primary text-md">하락</span></td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane" id="five">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <span class="badge bg-danger text-md">상승</span>
+                            <span class="p-2"><span class="p-1" id="up_5">번</span><span id="up_ratio_5">(%)</span></span>
+                            <span class="p-2"id="up_max_5">연속</span>
+                            <span class="p-4"></span>
+                            <span class="badge bg-primary text-md">하락</span>
+                            <span class="p-2"><span class="p-1" id="down_5">번</span><span id="down_ratio_5">(%)</span></span>
+                            <span class="p-2" id="down_max_5">연속</span>
+                        </div>
+                        <div class="col-md-3 text-right">
+                            <span class="badge bg-indigo text-md">퐁당</span>
+                            <span class="p-2" id="sideway_5">번</span>
+                            <span class="p-4"></span>
+                                <span class="badge bg-gray text-md">꺽음</span>
+                            <span class="p-2" id="index_5">번</span>
+                        </div>
+                    </div>
+                    <br/>
+
+                    <div class="table-responsive border-danger">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="text-center align-center" id="th_5"></tr>
+                            </thead>
+                            <tbody class="text-center align-center" id="tbody_5"></tbody>
+                            <tfoot>
+                                <tr class="text-center" id="tf_total_5"></tr>
+                                <tr class="text-center" style="background-color: black; color: white;" id="tf_index_5"></tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <br/>
+
+                    <table id="table_result_5" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th class="text-center">게임 시간</th>
+                                <th class="text-center no-sort">종목</th>
+                                <th class="text-center no-sort">시가</th>
+                                <th class="text-center no-sort">상태</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ticker in ticker_5_list %}
+                                <tr>
+                                    <td class="text-center">{{ ticker.start_time|date:"Y-m-d H:i" }}</td>
+                                    <td class="text-center">{{ ticker.code }}</td>
+                                    <td class="text-center">{{ ticker.open_price }}</td>
+                                    {% if ticker.status == 2 %}
+                                        <td class="text-center"><span class="badge bg-danger text-md">상승</span></td>
+                                    {% else %}
+                                        <td class="text-center"><span class="badge bg-primary text-md">하락</span></td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script>
+        $( document ).ready(function() {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const select_code = urlParams.get('code')
+            const select_date = urlParams.get('date')
+            const select_hour = urlParams.get('hour')
+
+            document.getElementById("up_1").innerHTML = ticker_1_list.cnt.up + '번';
+            document.getElementById("up_ratio_1").innerHTML = '(' + Math.round(ticker_1_list.cnt.up * 10000 / ticker_1_list.cnt.total) / 100 + '%)';
+            document.getElementById("up_max_1").innerHTML = ticker_1_list.cnt.up_max + '연속';
+            document.getElementById("down_1").innerHTML = ticker_1_list.cnt.down + '번';
+            document.getElementById("down_ratio_1").innerHTML = '(' + Math.round(ticker_1_list.cnt.down * 10000 / ticker_1_list.cnt.total) / 100 + '%)';
+            document.getElementById("down_max_1").innerHTML = ticker_1_list.cnt.down_max + '연속';
+            document.getElementById("index_1").innerHTML = ticker_1_list.cnt.index + '번';
+            document.getElementById("sideway_1").innerHTML = ticker_1_list.cnt.sideway + '번';
+
+            document.getElementById("up_2").innerHTML = ticker_2_list.cnt.up + '번';
+            document.getElementById("up_ratio_2").innerHTML = '(' + Math.round(ticker_2_list.cnt.up * 10000 / ticker_2_list.cnt.total) / 100 + '%)';
+            document.getElementById("up_max_2").innerHTML = ticker_2_list.cnt.up_max + '연속';
+            document.getElementById("down_2").innerHTML = ticker_2_list.cnt.down + '번';
+            document.getElementById("down_ratio_2").innerHTML = '(' + Math.round(ticker_2_list.cnt.down * 10000 / ticker_2_list.cnt.total) / 100 + '%)';
+            document.getElementById("down_max_2").innerHTML = ticker_2_list.cnt.down_max + '연속';
+            document.getElementById("index_2").innerHTML = ticker_2_list.cnt.index + '번';
+            document.getElementById("sideway_2").innerHTML = ticker_2_list.cnt.sideway + '번';
+
+            document.getElementById("up_3").innerHTML = ticker_3_list.cnt.up + '번';
+            document.getElementById("up_ratio_3").innerHTML = '(' + Math.round(ticker_3_list.cnt.up * 10000 / ticker_3_list.cnt.total) / 100 + '%)';
+            document.getElementById("up_max_3").innerHTML = ticker_3_list.cnt.up_max + '연속';
+            document.getElementById("down_3").innerHTML = ticker_3_list.cnt.down + '번';
+            document.getElementById("down_ratio_3").innerHTML = '(' + Math.round(ticker_3_list.cnt.down * 10000 / ticker_3_list.cnt.total) / 100 + '%)';
+            document.getElementById("down_max_3").innerHTML = ticker_3_list.cnt.down_max + '연속';
+            document.getElementById("index_3").innerHTML = ticker_3_list.cnt.index + '번';
+            document.getElementById("sideway_3").innerHTML = ticker_3_list.cnt.sideway + '번';
+
+            document.getElementById("up_5").innerHTML = ticker_5_list.cnt.up + '번';
+            document.getElementById("up_ratio_5").innerHTML = '(' + Math.round(ticker_5_list.cnt.up * 10000 / ticker_5_list.cnt.total) / 100 + '%)';
+            document.getElementById("up_max_5").innerHTML = ticker_5_list.cnt.up_max + '연속';
+            document.getElementById("down_5").innerHTML = ticker_5_list.cnt.down + '번';
+            document.getElementById("down_ratio_5").innerHTML = '(' + Math.round(ticker_5_list.cnt.down * 10000 / ticker_5_list.cnt.total) / 100 + '%)';
+            document.getElementById("down_max_5").innerHTML = ticker_5_list.cnt.down_max + '연속';
+            document.getElementById("index_5").innerHTML = ticker_5_list.cnt.index + '번';
+            document.getElementById("sideway_5").innerHTML = ticker_5_list.cnt.sideway + '번';
+
+            let i, j = 0;
+            let mod = 0;
+            let max = 0;
+
+            let node_tr = document.createElement("tr");
+            let node_td = document.createElement("td");
+            let node_span = document.createElement("span");
+            let node_th = document.createElement("th");
+            let node_tf_total = document.createElement("td");
+            let node_tf_index = document.createElement("td");
+            if (ticker_1_list.type_start == 'up') {
+                mod = 0;
+            } else {
+                mod = 1;
+            }
+
+            for (i = 0; i < ticker_1_list.cnt.index; i++) {
+                if (i % 2 == mod) {
+                    node_th = document.createElement("th")
+                    node_th.classList.add("th-high");
+                    node_th.innerHTML = '상승';
+                    document.getElementById("th_1").appendChild(node_th);
+                } else {
+                    node_th = document.createElement("th")
+                    node_th.classList.add("th-low");
+                    node_th.innerHTML = '하락';
+                    document.getElementById("th_1").appendChild(node_th);
                 }
 
-                $(function () {
-                    $('#table_result').DataTable({
-                        "columnDefs": [{
-                            "targets": 'no-sort',
-                            "orderable": false,
-                        }],
-                        {#"scrollX": true, #}
-                    });
+                node_tf_total = document.createElement("td")
+                node_tf_total.classList.add("th-index");
+                node_tf_total.innerHTML = ticker_1_list.cnt.up_down_total[i];
+                document.getElementById("tf_total_1").appendChild(node_tf_total);
+
+                node_tf_index = document.createElement("td")
+                node_tf_index.classList.add("th-index");
+                node_tf_index.innerHTML = i + 1;
+                document.getElementById("tf_index_1").appendChild(node_tf_index);
+            }
+
+            max = Math.max.apply(Math, ticker_1_list.cnt.up_down_total);
+            for (i = 0; i < max; i++) {
+                node_tr = document.createElement("tr")
+                for (j = 0; j < ticker_1_list.cnt.index; j++) {
+                    node_td = document.createElement("td");
+                    node_td.classList.add("td-result");
+                    if (ticker_1_list.table[j].length > i) {
+                        node_span = document.createElement("span");
+                        node_span.classList.add("text-md");
+                        node_span.classList.add("m-1");
+                        node_span.classList.add("badge");
+                        if (ticker_1_list.table[j][i] > 0) {
+                            node_span.classList.add("bg-danger");
+                            node_span.innerHTML = ticker_1_list.table[j][i];
+                        } else {
+                            node_span.classList.add("bg-primary");
+                            node_span.innerHTML = -ticker_1_list.table[j][i];
+                        }
+                        node_td.appendChild(node_span);
+                    }
+                    node_tr.appendChild(node_td);
+                }
+                document.getElementById("tbody_1").appendChild(node_tr);
+            }
+
+            if (ticker_2_list.type_start == 'up') {
+                mod = 0;
+            } else {
+                mod = 1;
+            }
+
+            for (i = 0; i < ticker_2_list.cnt.index; i++) {
+                if (i % 2 == mod) {
+                    node_th = document.createElement("th")
+                    node_th.classList.add("th-high");
+                    node_th.innerHTML = '상승';
+                    document.getElementById("th_2").appendChild(node_th);
+                } else {
+                    node_th = document.createElement("th")
+                    node_th.classList.add("th-low");
+                    node_th.innerHTML = '하락';
+                    document.getElementById("th_2").appendChild(node_th);
+                }
+
+                node_tf_total = document.createElement("td")
+                node_tf_total.classList.add("th-index");
+                node_tf_total.innerHTML = ticker_2_list.cnt.up_down_total[i];
+                document.getElementById("tf_total_2").appendChild(node_tf_total);
+
+                node_tf_index = document.createElement("td")
+                node_tf_index.classList.add("th-index");
+                node_tf_index.innerHTML = i + 1;
+                document.getElementById("tf_index_2").appendChild(node_tf_index);
+            }
+
+            max = Math.max.apply(Math, ticker_2_list.cnt.up_down_total);
+            for (i = 0; i < max; i++) {
+                node_tr = document.createElement("tr")
+                for (j = 0; j < ticker_2_list.cnt.index; j++) {
+                    node_td = document.createElement("td");
+                    node_td.classList.add("td-result");
+                    if (ticker_2_list.table[j].length > i) {
+                        node_span = document.createElement("span");
+                        node_span.classList.add("text-md");
+                        node_span.classList.add("m-1");
+                        node_span.classList.add("badge");
+                        if (ticker_2_list.table[j][i] > 0) {
+                            node_span.classList.add("bg-danger");
+                            node_span.innerHTML = ticker_2_list.table[j][i];
+                        } else {
+                            node_span.classList.add("bg-primary");
+                            node_span.innerHTML = -ticker_2_list.table[j][i];
+                        }
+                        node_td.appendChild(node_span);
+                    }
+                    node_tr.appendChild(node_td);
+                }
+                document.getElementById("tbody_2").appendChild(node_tr);
+            }
+
+            if (ticker_3_list.type_start == 'up') {
+                mod = 0;
+            } else {
+                mod = 1;
+            }
+
+            for (i = 0; i < ticker_3_list.cnt.index; i++) {
+                if (i % 2 == mod) {
+                    node_th = document.createElement("th")
+                    node_th.classList.add("th-high");
+                    node_th.innerHTML = '상승';
+                    document.getElementById("th_3").appendChild(node_th);
+                } else {
+                    node_th = document.createElement("th")
+                    node_th.classList.add("th-low");
+                    node_th.innerHTML = '하락';
+                    document.getElementById("th_3").appendChild(node_th);
+                }
+
+                node_tf_total = document.createElement("td")
+                node_tf_total.classList.add("th-index");
+                node_tf_total.innerHTML = ticker_3_list.cnt.up_down_total[i];
+                document.getElementById("tf_total_3").appendChild(node_tf_total);
+
+                node_tf_index = document.createElement("td")
+                node_tf_index.classList.add("th-index");
+                node_tf_index.innerHTML = i + 1;
+                document.getElementById("tf_index_3").appendChild(node_tf_index);
+            }
+
+            max = Math.max.apply(Math, ticker_3_list.cnt.up_down_total);
+            for (i = 0; i < max; i++) {
+                node_tr = document.createElement("tr")
+                for (j = 0; j < ticker_3_list.cnt.index; j++) {
+                    node_td = document.createElement("td");
+                    node_td.classList.add("td-result");
+                    if (ticker_3_list.table[j].length > i) {
+                        node_span = document.createElement("span");
+                        node_span.classList.add("text-md");
+                        node_span.classList.add("m-1");
+                        node_span.classList.add("badge");
+                        if (ticker_3_list.table[j][i] > 0) {
+                            node_span.classList.add("bg-danger");
+                            node_span.innerHTML = ticker_3_list.table[j][i];
+                        } else {
+                            node_span.classList.add("bg-primary");
+                            node_span.innerHTML = -ticker_3_list.table[j][i];
+                        }
+                        node_td.appendChild(node_span);
+                    }
+                    node_tr.appendChild(node_td);
+                }
+                document.getElementById("tbody_3").appendChild(node_tr);
+            }
+
+            if (ticker_5_list.type_start == 'up') {
+                mod = 0;
+            } else {
+                mod = 1;
+            }
+
+            for (i = 0; i < ticker_5_list.cnt.index; i++) {
+                if (i % 2 == mod) {
+                    node_th = document.createElement("th")
+                    node_th.classList.add("th-high");
+                    node_th.innerHTML = '상승';
+                    document.getElementById("th_5").appendChild(node_th);
+                } else {
+                    node_th = document.createElement("th")
+                    node_th.classList.add("th-low");
+                    node_th.innerHTML = '하락';
+                    document.getElementById("th_5").appendChild(node_th);
+                }
+
+                node_tf_total = document.createElement("td")
+                node_tf_total.classList.add("th-index");
+                node_tf_total.innerHTML = ticker_5_list.cnt.up_down_total[i];
+                document.getElementById("tf_total_5").appendChild(node_tf_total);
+
+                node_tf_index = document.createElement("td")
+                node_tf_index.classList.add("th-index");
+                node_tf_index.innerHTML = i + 1;
+                document.getElementById("tf_index_5").appendChild(node_tf_index);
+            }
+
+            max = Math.max.apply(Math, ticker_5_list.cnt.up_down_total);
+            for (i = 0; i < max; i++) {
+                node_tr = document.createElement("tr")
+                for (j = 0; j < ticker_5_list.cnt.index; j++) {
+                    node_td = document.createElement("td");
+                    node_td.classList.add("td-result");
+                    if (ticker_5_list.table[j].length > i) {
+                        node_span = document.createElement("span");
+                        node_span.classList.add("text-md");
+                        node_span.classList.add("m-1");
+                        node_span.classList.add("badge");
+                        if (ticker_5_list.table[j][i] > 0) {
+                            node_span.classList.add("bg-danger");
+                            node_span.innerHTML = ticker_5_list.table[j][i];
+                        } else {
+                            node_span.classList.add("bg-primary");
+                            node_span.innerHTML = -ticker_5_list.table[j][i];
+                        }
+                        node_td.appendChild(node_span);
+                    }
+                    node_tr.appendChild(node_td);
+                }
+                document.getElementById("tbody_5").appendChild(node_tr);
+            }
+
+
+
+            {#window.location.replace("./chart?code=Bitcoin&date=" + date_list[date_list.length - 1].date_value + "&hour=09");#}
+
+            if (select_code) {
+                document.getElementById("select_code").value = select_code;
+            }
+            if (select_date) {
+                document.getElementById("select_date").value = select_date;
+            }
+            if (select_hour) {
+                document.getElementById("select_hour").value = select_hour;
+            }
+
+            $(function () {
+                $('#table_result_5').DataTable({
+                    "columnDefs": [{
+                        "targets": 'no-sort',
+                        "orderable": false,
+                    }],
+                });
+                $('#table_result_3').DataTable({
+                    "columnDefs": [{
+                        "targets": 'no-sort',
+                        "orderable": false,
+                    }],
+                });
+                $('#table_result_2').DataTable({
+                    "columnDefs": [{
+                        "targets": 'no-sort',
+                        "orderable": false,
+                    }],
+                });
+                $('#table_result_1').DataTable({
+                    "columnDefs": [{
+                        "targets": 'no-sort',
+                        "orderable": false,
+                    }],
                 });
             });
+        });
 
-            function selectChange() {
-                let select_code = document.getElementById("select_code").value;
-                let select_date = document.getElementById("select_date").value;
-                let select_hour = document.getElementById("select_hour").value;
-                window.location.replace("./list?code=" + select_code + "&date=" + select_date + "&hour=" + select_hour);
+        // Set the date we're counting down to
+        var countDownDate = new Date("Jan 1, 2022 00:00:00").getTime();
+
+        // Update the count down every 1 second
+        var x = setInterval(function() {
+
+            // Get today's date and time
+            var now = new Date().getTime();
+
+            // Find the distance between now and the count down date
+            var distance = countDownDate - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the result in the element with id="demo"
+            document.getElementById("timer_1").innerHTML = minutes % 1 + " : " + seconds;
+            document.getElementById("timer_2").innerHTML = minutes % 2 + " : " + seconds;
+            document.getElementById("timer_3").innerHTML = minutes % 3 + " : " + seconds;
+            document.getElementById("timer_5").innerHTML = minutes % 5 + " : " + seconds;
+
+            if (seconds == 20) {
+                let per = Math.floor(Math.random() * 10000) / 100
+                document.getElementById("prediction_pdpd_percent_1").innerHTML = "1분 게임 예측 : 확률(" + per + "%)";
+                if (Math.floor(Math.random() * 10) % 2 == 0) {
+                    document.getElementById("prediction_pdpd_result_1").classList.add("th-high");
+                    document.getElementById("prediction_pdpd_result_1").innerHTML = "상승";
+                } else {
+                    document.getElementById("prediction_pdpd_result_1").classList.add("th-low");
+                    document.getElementById("prediction_pdpd_result_1").innerHTML = "하락";
+                }
+            } else if (seconds > 20) {
+                document.getElementById("prediction_pdpd_percent_1").innerHTML = "1분 게임 예측 : ";
+                document.getElementById("prediction_pdpd_result_1").innerHTML = " - ";
+                document.getElementById("prediction_pdpd_result_1").classList.remove("th-high");
+                document.getElementById("prediction_pdpd_result_1").classList.remove("th-low");
             }
-        </script>
 
-    {% endblock %}
+            if (minutes % 2 == 0 & seconds == 25) {
+                let per = Math.floor(Math.random() * 10000) / 100
+                document.getElementById("prediction_pdpd_percent_2").innerHTML = "2분 게임 예측 : 확률(" + per + "%)";
+                if (Math.floor(Math.random() * 10) % 2 == 0) {
+                    document.getElementById("prediction_pdpd_result_2").classList.add("th-high");
+                    document.getElementById("prediction_pdpd_result_2").innerHTML = "상승";
+                } else {
+                    document.getElementById("prediction_pdpd_result_2").classList.add("th-low");
+                    document.getElementById("prediction_pdpd_result_2").innerHTML = "하락";
+                }
+            } else if (minutes % 2 > 0 | seconds > 30) {
+                document.getElementById("prediction_pdpd_percent_2").innerHTML = "2분 게임 예측 : ";
+                document.getElementById("prediction_pdpd_result_2").innerHTML = " - ";
+                document.getElementById("prediction_pdpd_result_2").classList.remove("th-high");
+                document.getElementById("prediction_pdpd_result_2").classList.remove("th-low");
+            }
 
-    {% block extra_js %}{% endblock %}
+            if (minutes % 3 == 0 & seconds == 30) {
+                let per = Math.floor(Math.random() * 10000) / 100
+                document.getElementById("prediction_pdpd_percent_3").innerHTML = "3분 게임 예측 : 확률(" + per + "%)";
+                if (Math.floor(Math.random() * 10) % 2 == 0) {
+                    document.getElementById("prediction_pdpd_result_3").classList.add("th-high");
+                    document.getElementById("prediction_pdpd_result_3").innerHTML = "상승";
+                } else {
+                    document.getElementById("prediction_pdpd_result_3").classList.add("th-low");
+                    document.getElementById("prediction_pdpd_result_3").innerHTML = "하락";
+                }
+            } else if (minutes % 3 > 0 | seconds > 30) {
+                document.getElementById("prediction_pdpd_percent_3").innerHTML = "3분 게임 예측 : ";
+                document.getElementById("prediction_pdpd_result_3").innerHTML = " - ";
+                document.getElementById("prediction_pdpd_result_3").classList.remove("th-high");
+                document.getElementById("prediction_pdpd_result_3").classList.remove("th-low");
+            }
 
-    {% block extra_foot %}{% endblock %}
-</body>
-</html>
+            if (minutes % 5 == 0 & seconds == 40) {
+                let per = Math.floor(Math.random() * 10000) / 100
+                document.getElementById("prediction_pdpd_percent_5").innerHTML = "5분 게임 예측 : 확률(" + per + "%)";
+                if (Math.floor(Math.random() * 10) % 2 == 0) {
+                    document.getElementById("prediction_pdpd_result_5").classList.add("th-high");
+                    document.getElementById("prediction_pdpd_result_5").innerHTML = "상승";
+                } else {
+                    document.getElementById("prediction_pdpd_result_5").classList.add("th-low");
+                    document.getElementById("prediction_pdpd_result_5").innerHTML = "하락";
+                }
+            } else if (minutes % 5 > 0 | seconds > 40) {
+                document.getElementById("prediction_pdpd_percent_5").innerHTML = "5분 게임 예측 : ";
+                document.getElementById("prediction_pdpd_result_5").innerHTML = " - ";
+                document.getElementById("prediction_pdpd_result_5").classList.remove("th-high");
+                document.getElementById("prediction_pdpd_result_5").classList.remove("th-low");
+            }
+
+            if (seconds == 20) {
+                let per = Math.floor(Math.random() * 10000) / 100
+                document.getElementById("prediction_st_percent_1").innerHTML = "1분 게임 예측 : 확률(" + per + "%)";
+                if (Math.floor(Math.random() * 10) % 2 == 0) {
+                    document.getElementById("prediction_st_result_1").classList.add("th-high");
+                    document.getElementById("prediction_st_result_1").innerHTML = "상승";
+                } else {
+                    document.getElementById("prediction_st_result_1").classList.add("th-low");
+                    document.getElementById("prediction_st_result_1").innerHTML = "하락";
+                }
+            } else if (seconds > 20) {
+                document.getElementById("prediction_st_percent_1").innerHTML = "1분 게임 예측 : ";
+                document.getElementById("prediction_st_result_1").innerHTML = " - ";
+                document.getElementById("prediction_st_result_1").classList.remove("th-high");
+                document.getElementById("prediction_st_result_1").classList.remove("th-low");
+            }
+
+            if (minutes % 2 == 0 & seconds == 25) {
+                let per = Math.floor(Math.random() * 10000) / 100
+                document.getElementById("prediction_st_percent_2").innerHTML = "2분 게임 예측 : 확률(" + per + "%)";
+                if (Math.floor(Math.random() * 10) % 2 == 0) {
+                    document.getElementById("prediction_st_result_2").classList.add("th-high");
+                    document.getElementById("prediction_st_result_2").innerHTML = "상승";
+                } else {
+                    document.getElementById("prediction_st_result_2").classList.add("th-low");
+                    document.getElementById("prediction_st_result_2").innerHTML = "하락";
+                }
+            } else if (minutes % 2 > 0 | seconds > 30) {
+                document.getElementById("prediction_st_percent_2").innerHTML = "2분 게임 예측 : ";
+                document.getElementById("prediction_st_result_2").innerHTML = " - ";
+                document.getElementById("prediction_st_result_2").classList.remove("th-high");
+                document.getElementById("prediction_st_result_2").classList.remove("th-low");
+            }
+
+            if (minutes % 3 == 0 & seconds == 30) {
+                let per = Math.floor(Math.random() * 10000) / 100
+                document.getElementById("prediction_st_percent_3").innerHTML = "3분 게임 예측 : 확률(" + per + "%)";
+                if (Math.floor(Math.random() * 10) % 2 == 0) {
+                    document.getElementById("prediction_st_result_3").classList.add("th-high");
+                    document.getElementById("prediction_st_result_3").innerHTML = "상승";
+                } else {
+                    document.getElementById("prediction_st_result_3").classList.add("th-low");
+                    document.getElementById("prediction_st_result_3").innerHTML = "하락";
+                }
+            } else if (minutes % 3 > 0 | seconds > 30) {
+                document.getElementById("prediction_st_percent_3").innerHTML = "3분 게임 예측 : ";
+                document.getElementById("prediction_st_result_3").innerHTML = " - ";
+                document.getElementById("prediction_st_result_3").classList.remove("th-high");
+                document.getElementById("prediction_st_result_3").classList.remove("th-low");
+            }
+
+            if (minutes % 5 == 0 & seconds == 40) {
+                let per = Math.floor(Math.random() * 10000) / 100
+                document.getElementById("prediction_st_percent_5").innerHTML = "5분 게임 예측 : 확률(" + per + "%)";
+                if (Math.floor(Math.random() * 10) % 2 == 0) {
+                    document.getElementById("prediction_st_result_5").classList.add("th-high");
+                    document.getElementById("prediction_st_result_5").innerHTML = "상승";
+                } else {
+                    document.getElementById("prediction_st_result_5").classList.add("th-low");
+                    document.getElementById("prediction_st_result_5").innerHTML = "하락";
+                }
+            } else if (minutes % 5 > 0 | seconds > 40) {
+                document.getElementById("prediction_st_percent_5").innerHTML = "5분 게임 예측 : ";
+                document.getElementById("prediction_st_result_5").innerHTML = " - ";
+                document.getElementById("prediction_st_result_5").classList.remove("th-high");
+                document.getElementById("prediction_st_result_5").classList.remove("th-low");
+            }
+
+            // If the count down is finished, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("demo").innerHTML = "EXPIRED";
+            }
+        }, 1000);
+
+        function selectChange() {
+            let select_code = document.getElementById("select_code").value;
+            let select_date = document.getElementById("select_date").value;
+            let select_hour = document.getElementById("select_hour").value;
+            window.location.replace("./chart?code=" + select_code + "&date=" + select_date + "&hour=" + select_hour);
+        }
+    </script>
+{% endblock javascript %}

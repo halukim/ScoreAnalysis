@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'admin_tools.dashboard',
 
     'analysis',
+    'product',
 
     'django.contrib.admin',
     'django.contrib.auth',

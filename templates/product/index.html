@@ -1,0 +1,62 @@
+{% extends 'base_product.html' %}
+
+{% load static %}
+
+{% block content %}
+
+    <div>
+        <table id="table_product" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="text-center">productNote</th>
+                    <th class="text-center">productModel</th>
+                    <th class="text-center">productCode</th>
+                    <th class="text-center">productUm</th>
+                    <th class="text-center">productBrand</th>
+                    <th class="text-center">productCategory</th>
+                    <th class="text-center">productColor</th>
+                    <th class="text-center">productSize</th>
+                    <th class="text-center">productCost</th>
+                    <th class="text-center">productPrice</th>
+                    <th class="text-center">productImgUrl1</th>
+                    <th class="text-center">productImgUrl1</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in product_list %}
+                    <tr>
+                        <td class="text-center">{{ product.productNote }}</td>
+                        <td class="text-center">{{ product.productModel }}</td>
+                        <td class="text-center">{{ product.productCode }}</td>
+                        <td class="text-center">{{ product.productUm }}</td>
+                        <td class="text-center">{{ product.productBrand }}</td>
+                        <td class="text-center">{{ product.productCategory }}</td>
+                        <td class="text-center">{{ product.productColor }}</td>
+                        <td class="text-center">{{ product.productSize }}</td>
+                        <td class="text-center">{{ product.productCost }}</td>
+                        <td class="text-center">{{ product.productPrice }}</td>
+                        <td class="text-center">{{ product.productImgUrl1 }}</td>
+                        <td class="text-center">{{ product.productImgUrl1 }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock content %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script>
+        $( document ).ready(function() {
+            $(function () {
+                $('#table_product').DataTable({
+                    "columnDefs": [{
+                        "targets": 'no-sort',
+                        "orderable": false,
+                    }],
+                });
+            });
+        });
+
+    </script>
+{% endblock javascript %}
