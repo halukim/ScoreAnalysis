@@ -1,0 +1,59 @@
+{% extends 'base/account.html' %}
+
+{% block content %}
+    <div class="login-box">
+        <div class="card">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">Service Name</p>
+                <form action="{% url 'account:sign_up' %}" method="post">
+                    {% csrf_token %}
+                    <div class="input-group mb-3">
+                        {{ form.email }}
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        {{ form.mobile }}
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-mobile"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        {{ form.password }}
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        {{ form.password_confirm }}
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+                            <a href="{% url 'account:sign_in' %}">Sign In</a>
+                        </div>
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+                        </div>
+                    </div>
+                </form>
+
+                <p class="mb-1">
+                    If you have a question to our Service,<br/>
+                    please send email to xxxxx@gmail.com
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

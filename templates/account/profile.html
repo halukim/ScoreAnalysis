@@ -1,0 +1,32 @@
+{% extends 'base/base.html' %}
+
+{% load adminlte_helpers i18n %}
+{% load static %}
+
+{% block page_name %}
+    <div class="row">
+        <div class="col-md-4">
+            {% trans 'profile' %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <form action="{% url 'account:profile' %}" method="post" disabled="">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6">
+                {% include 'include/profile_default.html' with role=True %}
+            </div>
+            <div class="col-md-6">
+                {% include 'include/profile_bot.html' %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <a href="#" class="btn btn-secondary">Cancel</a>
+                <input type="submit" value="Save Changes" class="btn btn-success float-right">
+            </div>
+        </div>
+    </form>
+{% endblock content %}

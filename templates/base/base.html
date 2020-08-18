@@ -16,7 +16,7 @@
     {% endblock %}
 
     {% block stylesheets %}
-        {% include 'styles.html' %}
+        {% include 'base/styles.html' %}
     {% endblock %}
 
     {% block extra_head %}{% endblock %}
@@ -25,11 +25,11 @@
     {% block body %}
         <div class="wrapper">
             {% block nav_header %}
-                {% include 'main_header.html' %}
+                {% include 'base/header.html' %}
             {% endblock %}
 
             {% block nav_sidebar %}
-                {% include 'main_sidebar.html' %}
+                {% include 'base/sidebar.html' %}
             {% endblock %}
 
             {% block content_wrapper %}
@@ -57,7 +57,7 @@
                     {% block content_outer %}
                         <section class="content">
                             {% block messages %}
-                                {% include 'messages.html' %}
+                                {% include 'base/messages.html' %}
                             {% endblock %}
 
                             {% block content_block_wrap %}
@@ -69,13 +69,13 @@
             {% endblock content_wrapper %}
 
             {% block nav_footer %}
-                {% include 'main_footer.html' %}
+                {% include 'base/footer.html' %}
             {% endblock %}
         </div>
     {% endblock body %}
 
     {% block javascript %}
-        {% include 'scripts.html' %}
+        {% include 'base/scripts.html' %}
     {% endblock %}
 
     {% block extra_js %}{% endblock %}

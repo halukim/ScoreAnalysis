@@ -4,6 +4,9 @@ from . import views
 app_name = "analysis"
 
 urlpatterns = [
-    path('chart', views.ChartView.as_view(), name='chart'),
-    path('list', views.ListView.as_view(), name='list'),
+    path('fx/bitcoin', views.BitcoinView.as_view(), name='bitcoin'),
+    path('fx/gold', views.BitcoinView.as_view(), name='gold'),
+    path('list', views.BitcoinView.as_view(), name='list'),
+
+    path('powerball', views.BitcoinView.as_view(), name='powerball'),
 ]

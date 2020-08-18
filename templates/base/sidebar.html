@@ -1,0 +1,109 @@
+{% load adminlte_helpers i18n %}
+{%load static %}
+
+<!-- Left side column. contains the sidebar -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+     <!-- Brand Logo -->
+    {% block logo %}
+        <a href="{% url 'analysis:bitcoin' %}" class="brand-link">
+            {% block logo_text %}<span class="brand-text font-weight-light">분석기</span>{% endblock %}
+        </a>
+    {% endblock %}
+    <!-- sidebar: style can be found in sidebar.less -->
+    <div class="sidebar">
+        {% block form %}{% endblock %}
+
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        {% block nav_links_ul %}
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    {% block nav_links_outer %}
+                        {% block nav_links %}
+
+                            <li class="nav-item has-treeview" id="level1_tree_account">
+                                <a href="#" class="nav-link" id="level1_link_account">
+                                    <i class="nav-icon fa fa-user"></i>
+                                    <p>{% trans 'account' %}
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="{% url 'account:sign_in' %}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>{% trans 'sign-in' %}</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{% url 'account:sign_up' %}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>{% trans 'sign-up' %}</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{% url 'account:password_reset' %}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>{% trans 'reset-password' %}</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{% url 'account:password_forgot' %}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>{% trans 'forgot-password' %}</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{% url 'account:profile' %}" class="nav-link" id="level2_tree_profile">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>{% trans 'profile' %}</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item has-treeview" id="level1_tree_fx">
+                                <a href="#" class="nav-link" id="level1_link_fx">
+                                    <i class="nav-icon fas fa-money-check"></i>
+                                    <p>{% trans 'fx' %}
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="{% url 'analysis:bitcoin' %}" class="nav-link" id="level2_tree_fx_bitcoin">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>{% trans 'bitcoin' %}</p>
+                                        </a>
+                                    </li>
+                                    <!--li class="nav-item">
+                                        <a href="{% url 'analysis:gold' %}" class="nav-link" id="level2_tree_fx_gold">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>{% trans 'gold' %}</p>
+                                        </a>
+                                    </li-->
+                                </ul>
+                            </li>
+                            <!--li class="nav-item has-treeview" id="level1_tree_powerball">
+                                <a href="#" class="nav-link" id="level1_link_powerball">
+                                    <i class="nav-icon fas fa-money-check"></i>
+                                    <p>{% trans 'powerball' %}
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="{% url 'analysis:powerball' %}" class="nav-link" id="level2_tree_powerball_powerball">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>{% trans 'powerball' %}</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li-->
+                        {% endblock nav_links %}
+                    {% endblock nav_links_outer %}
+                </ul>
+            </nav>
+        {% endblock nav_links_ul %}
+    </div>
+    <!-- /.sidebar -->
+</aside>

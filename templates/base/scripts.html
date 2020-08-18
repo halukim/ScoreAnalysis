@@ -1,0 +1,59 @@
+{% load static %}
+
+{% block scripts %}
+    <!-- jQuery -->
+    <script src="{% static 'admin-lte/plugins/jquery/jquery.min.js' %}"></script>
+    <!-- jQuery UI -->
+    <script src="{% static 'admin-lte/plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+    <!-- Bootstrap -->
+    <script src="{% static 'admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %} "></script>
+    <!-- SweetAlert2 -->
+    <script src="{% static 'admin-lte/plugins/sweetalert2/sweetalert2.min.js' %} "></script>
+    <!-- Toastr -->
+    <script src="{% static 'admin-lte/plugins/toastr/toastr.min.js' %} "></script>
+    <!-- ChartJS -->
+    <script src="{% static 'admin-lte/plugins/chart.js/Chart.min.js' %} "></script>
+    <!-- date-range-picker -->
+    <script src="{% static 'admin-lte/plugins/daterangepicker/daterangepicker.js' %}"></script>
+    <!-- DataTables -->
+    <script src="{% static 'admin-lte/plugins/datatables/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'admin-lte/plugins/datatables-bs4/js/dataTables.bootstrap4.js' %}"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button);
+    </script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'admin-lte/dist/js/adminlte.min.js' %}"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="{% static 'admin-lte/dist/js/demo.js' %}"></script>
+
+    <script type="text/javascript">
+        let ready;
+        ready = $(document).ready(function () {
+
+            let url, level1_tree, level1_link, level2_tree;
+            url = window.location.href;
+            if (url.indexOf('/fx/bitcoin') > 0) {
+                level1_tree = document.getElementById("level1_tree_fx");
+                level1_link = document.getElementById("level1_link_fx");
+                level2_tree = document.getElementById("level2_tree_fx_bitcoin");
+            } else if (url.indexOf('/account/profile') > 0) {
+                level1_tree = document.getElementById("level1_tree_account");
+                level1_link = document.getElementById("level1_link_account");
+                level2_tree = document.getElementById("level2_tree_profile");
+            } else if (url.indexOf('/fx/gold') > 0) {
+                level1_tree = document.getElementById("level1_tree_fx");
+                level1_link = document.getElementById("level1_link_fx");
+                level2_tree = document.getElementById("level2_tree_fx_gold");
+            } else if (url.indexOf('/powerball') > 0) {
+                level1_tree = document.getElementById("level1_tree_powerball");
+                level1_link = document.getElementById("level1_link_powerball");
+                level2_tree = document.getElementById("level2_tree_powerball_powerball");
+            }
+
+            if (level1_tree) level1_tree.classList.add("menu-open");
+            if (level1_link) level1_link.classList.add("active");
+            if (level2_tree) level2_tree.classList.add("active");
+        });
+    </script>
+{% endblock %}

@@ -1,3 +1,4 @@
+{% load adminlte_helpers i18n %}
 {% load static %}
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
 
@@ -74,6 +75,25 @@
                         </li>
                     {% endif %}
                 {% endblock user_info %}
+
+                <form style="width:130px; text-align:center;" name="ui" action="{% url 'set_language' %}" method="post">
+                    {% csrf_token %}
+                    <input name="next" type="hidden" value="{{ redirect_to }}" />
+                    <input name="language" type="hidden"/>
+                    <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        {% get_current_language as LANGUAGE_CODE %}
+                        {% get_language_info for LANGUAGE_CODE as lang %}
+                        {% get_available_languages as LANGUAGES %}
+                        {% get_language_info_list for LANGUAGES as languages %}
+                        <span class="btn btn-secondary">{{ lang.name_local }}</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        {% for language in languages %}
+                            <a href="#" class="dropdown-item" onclick="document.ui.language.value='{{ language.code}}'; document.ui.submit();">{{ language.name_local }}</a>
+                        {% endfor %}
+                    </ul>
+                </form>
+
             {% endblock header_dropdowns %}
         </ul>
     </ul>

@@ -1,0 +1,22 @@
+{% load adminlte_helpers i18n %}
+
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">{% trans 'profile' %}</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        {% for form_element in form %}
+            {% if form_element.label in placehold_fields %}
+                <div class="form-group">
+                    <label for="inputName">{% trans form_element.label %}</label>
+                    {{ form_element }}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>

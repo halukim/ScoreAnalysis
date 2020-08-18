@@ -1,0 +1,73 @@
+{% load adminlte_helpers i18n %}
+
+<div class="card card-secondary">
+    <div class="card-header">
+        <h3 class="card-title">{% trans 'bot' %}</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        {% for form_element in form %}
+            {% if form_element.label not in placehold_fields %}
+                {% if "min type" not in form_element.label %}
+                    <div class="form-group">
+                        <label for="inputName">{% trans form_element.label %}</label>
+                        {% if form_element.field.disabled %}
+                            <select name="{{ form_element.name }}" class="{{ form_element.field.widget.attrs.class }}" disabled id="{{ form_element.id_for_label }}">
+                        {% else %}
+                            <select name="{{ form_element.name }}" class="{{ form_element.field.widget.attrs.class }}" id="{{ form_element.id_for_label }}">
+                        {% endif %}
+                            {% for value, text in form_element.field.choices %}
+                                {% if value == form_element.field.initial %}
+                                    <option value="{{ value }}" selected>{% trans text %}</option>
+                                {% else %}
+                                    <option value="{{ value }}">{% trans text %}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                {% else %}
+                    <div class="form-group">
+                        <label for="inputName">{% trans form_element.label %}</label>
+                        {% if form_element.field.disabled %}
+                            <div id="id_{{ form_element.name }}">
+                                {% for value, text in form_element.field.choices %}
+                                    <span class="icheck-primary d-inline">
+                                        <label for="id_{{ form_element.name }}_{{ forloop.counter0 }}" style=”cursor:pointer“>
+                                            {% if value in form_element.initial %}
+                                                <input type="checkbox" name="{{ form_element.name }}" value="{{ value }}" disabled checked id="id_{{ form_element.name }}_{{ forloop.counter0 }}">
+                                                &nbsp;{{ text }}
+                                            {% else %}
+                                                <input type="checkbox" name="{{ form_element.name }}" value="{{ value }}" disabled id="id_{{ form_element.name }}_{{ forloop.counter0 }}">
+                                                &nbsp;{{ text }}
+                                            {% endif %}
+                                        </label>
+                                    </span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div id="id_{{ form_element.name }}">
+                                {% for value, text in form_element.field.choices %}
+                                    <span class="icheck-primary d-inline">
+                                        <label for="id_{{ form_element.name }}_{{ forloop.counter0 }}" style=”cursor:pointer“>
+                                            {% if value in form_element.initial %}
+                                                <input type="checkbox" name="{{ form_element.name }}" value="{{ value }}" checked id="id_{{ form_element.name }}_{{ forloop.counter0 }}">
+                                                &nbsp;{% trans text %}
+                                            {% else %}
+                                                <input type="checkbox" name="{{ form_element.name }}" value="{{ value }}" id="id_{{ form_element.name }}_{{ forloop.counter0 }}">
+                                                &nbsp;{% trans text %}
+                                            {% endif %}
+                                        </label>
+                                    </span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
